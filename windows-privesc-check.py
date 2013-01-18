@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import glob
 import datetime
 import socket
@@ -14,6 +15,7 @@ import _winreg
 import win32netcon
 from subprocess import Popen, PIPE, STDOUT
 from ntsecuritycon import TokenSessionId, TokenSandBoxInert, TokenType, TokenImpersonationLevel, TokenVirtualizationEnabled, TokenVirtualizationAllowed, TokenHasRestrictions, TokenElevationType, TokenUIAccess, TokenUser, TokenOwner, TokenGroups, TokenRestrictedSids, TokenPrivileges, TokenPrimaryGroup, TokenSource, TokenDefaultDacl, TokenStatistics, TokenOrigin, TokenLinkedToken, TokenLogonSid, TokenElevation, TokenIntegrityLevel, TokenMandatoryPolicy, SE_ASSIGNPRIMARYTOKEN_NAME, SE_BACKUP_NAME, SE_CREATE_PAGEFILE_NAME, SE_CREATE_TOKEN_NAME, SE_DEBUG_NAME, SE_LOAD_DRIVER_NAME, SE_MACHINE_ACCOUNT_NAME, SE_RESTORE_NAME, SE_SHUTDOWN_NAME, SE_TAKE_OWNERSHIP_NAME, SE_TCB_NAME
+import unicodedata
 
 k32 = ctypes.windll.kernel32
 wow64 = ctypes.c_long( 0 )
@@ -72,7 +74,9 @@ kb_nos = {
         '975517': 'MS09_050 Microsoft SRV2.SYS SMB Negotiate ProcessID Function Table Dereference (smb2_negotiate_func_index)',
         '823980': 'MS03_026 Microsoft RPC DCOM Interface Overflow',
         '892944': 'MS05_017 Microsoft Message Queueing Service Path Overflow',
-        '937894': 'MS07_065 Microsoft Message Queueing Service DNS Name Path Overflow'
+        '937894': 'MS07_065 Microsoft Message Queueing Service DNS Name Path Overflow',
+        '2592799': 'MS11-080: Vulnerability in ancillary function driver could allow elevation of privilege',
+        '2305420': 'MS10-092: Vulnerability in Task Scheduler could allow for elevation of privilege'
 }
 
 reg_paths = (
@@ -82,7 +86,7 @@ reg_paths = (
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run',
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell',
-	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit',
+	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\\Userinit',
 	'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices',
@@ -96,6 +100,7 @@ reg_paths = (
 # These have fully qualified names:
 trusted_principles_fq = (
 	"BUILTIN\\Administrators",
+	"BUILTIN\\Rendszergazdak",
 	"NT SERVICE\\TrustedInstaller",
 	"NT AUTHORITY\\SYSTEM"
 )
@@ -879,6 +884,12 @@ REPLACE_DANGEROUS_PERMS
 </html>
 '''
 
+def handle_unicode(u):
+	try:
+		return u.encode('ascii','replace')
+	except:
+		return u.decode("ascii",'ignore')
+
 def usage():
 	print "Usage: windows-privesc-check [options] checks"
 	print ""
@@ -914,7 +925,6 @@ def usage():
 	print "  -d|--domain arg        Remote domain.  Only works with -u!"
 	print ""
 	sys.exit(0)
-
 #
 # Reporting functions
 #
@@ -1038,7 +1048,9 @@ def save_issue(issue_name, data_type, weak_perms):
 		domain = weak_perm[1]
 		name = weak_perm[2]
 		permission = weak_perm[3]
-		key = object + " has the following permissions granted for " + domain + "\\" + name
+		#print repr((object,domain,name))
+		key = u"%s has the following permissions granted for %s\\%s" % (handle_unicode(object),handle_unicode(domain),handle_unicode(name))
+		#handle_unicode(object) + u" has the following permissions granted for " + handle_unicode(domain) + u"\\" + handle_unicode(name)
 		if not data_type in issues[issue_name]:
 			issues[issue_name][data_type]= {}
 		if not key in issues[issue_name][data_type]:
@@ -1894,9 +1906,9 @@ def audit_services():
 		else:
 			binary = get_binary(service_info[3])
 		print "---------------------------------------------------------------"
-		print("Service:        " + service[0])
-		print("Description:    " + service[1])
-		print("Binary:         " + service_info[3])
+		print("Service:        " + handle_unicode(service[0]))
+		print("Description:    " + handle_unicode(service[1]))
+		print("Binary:         " + handle_unicode(service_info[3]))
 		if binary:
 			print("Binary (clean): " + binary)
 		else:
@@ -1991,7 +2003,8 @@ def print_weak_perms(type, weak_perms, options={}):
 		if brief:
 			print "\t%s%s%s%s: %s" % (acl_type, domain, slash, principle, perm)
 		else:
-			print "\t%s%s%s%s has permission %s on %s %s" % (acl_type, domain, slash, principle, perm, type, object_name)
+			print repr((acl_type, domain, slash, principle, perm, type, object_name))
+			print u"\t%s%s%s%s has permission %s on %s %s" % (handle_unicode(acl_type), handle_unicode(domain), handle_unicode(slash), handle_unicode(principle), handle_unicode(perm), handle_unicode(type), handle_unicode(object_name))
 			
 def check_path(path, issue_no):
 	dirs = set(path.split(';'))
@@ -2218,7 +2231,7 @@ def check_progfiles():
 					weak_flag = 1
 				dir = file
 				for ext in exts:
-					for f in glob.glob(root + "\\" + dir + '\*.' + ext):
+					for f in glob.glob(u"%s\\%s\\*.%s" % (handle_unicode(root),handle_unicode(dir),handle_unicode(ext))): #root + "\\" + dir + '\*.' + ext):
 						#print "Processing " + f
 						weak_perms = check_weak_write_perms(f, 'file')
 						if weak_perms:
