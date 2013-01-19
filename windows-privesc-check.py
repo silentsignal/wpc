@@ -86,7 +86,7 @@ reg_paths = (
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run',
 	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell',
-	'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\\Userinit',
+	"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit",
 	'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce',
 	'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices',
@@ -116,6 +116,7 @@ eventlog_key_hklm = 'SYSTEM\CurrentControlSet\Services\Eventlog'
 # These have names without a domain:
 trusted_principles = (
 	"Administrators",
+	u"Rendszergazd\xe1k",
 	"Domain Admins",
 	"Enterprise Admins",
 )
@@ -2254,10 +2255,10 @@ def check_patches():
 # TODO: This is more difficult than I'd hoped.  You can't just search for the KB number: XP will appear to be vulnerable to dcom.  Need to search for KB number or SP2 in this case.
 #	from subprocess import Popen, PIPE
 	patchlist = Popen(["systeminfo"], stdout=PIPE).communicate()[0]
-#	for kb_no in kb_nos:
-#		print "Searching for " + kb_no
-#		if re.search(kb_no, patchlist):
-#			print "found"
+	for kb_no in kb_nos:
+		print "Searching for " + kb_no
+		if re.search(kb_no, patchlist):
+			print "found"
 		
 	
 def print_section(title):
@@ -2713,6 +2714,8 @@ def audit_user_group():
 				#print "Skipping %s - doesn't exist for this platform" % priv
 				pass
 
+# Main
+
 print "windows-privesc-check v%s (http://pentestmonkey.net/windows-privesc-check)\n" % version
 
 # Process Command Line Options
@@ -2994,12 +2997,10 @@ audit_data['version'] = version
 audit_data['datetime'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 audit_data['audit_user'] = os.environ['USERDOMAIN'] + "\\" + os.environ['USERNAME']
 audit_data['trusted_users'] = (handle_unicode(p) for p in trusted_principles_fq)
-audit_data['trusted_groups'] = trusted_principles
+audit_data['trusted_groups'] = (handle_unicode(p) for p in trusted_principles)
 audit_data['dangerous_privs'] = 'somedangerous_privs'
 
 REPORT.write(format_issues("html", issue_template, issues))
 REPORT.close
-print
-print
-print "Report saved to " + report_file_name
-print
+
+print "\n\nReport saved to %s \n" % report_file_name
