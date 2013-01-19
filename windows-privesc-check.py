@@ -100,7 +100,7 @@ reg_paths = (
 # These have fully qualified names:
 trusted_principles_fq = (
 	"BUILTIN\\Administrators",
-	"BUILTIN\\Rendszergazdak",
+	u"BUILTIN\\Rendszergazd\xe1k",
 	"NT SERVICE\\TrustedInstaller",
 	"NT AUTHORITY\\SYSTEM"
 )
@@ -1072,7 +1072,8 @@ def save_issue_string(issue_name, data_type, issue_string):
 # Returns 1 if the principle provided is trusted (admin / system / user-definted trusted principle)
 # Returns 0 otherwise
 def principle_is_trusted(principle, domain):
-	
+	#print "is_trusted principle: "+repr(principle)
+	#print "is_trusted: "+repr(trusted_principles_fq)
 	if domain + "\\" + principle in trusted_principles_fq:
 		return 1
 	
@@ -2992,7 +2993,7 @@ audit_data['domwkg'] = win32api.GetDomainName()
 audit_data['version'] = version
 audit_data['datetime'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 audit_data['audit_user'] = os.environ['USERDOMAIN'] + "\\" + os.environ['USERNAME']
-audit_data['trusted_users'] = trusted_principles_fq
+audit_data['trusted_users'] = (handle_unicode(p) for p in trusted_principles_fq)
 audit_data['trusted_groups'] = trusted_principles
 audit_data['dangerous_privs'] = 'somedangerous_privs'
 
