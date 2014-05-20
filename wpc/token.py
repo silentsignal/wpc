@@ -261,106 +261,14 @@ class token:
     def as_text_no_rec(self):
         template=Template(filename="templates/token.mako",encoding_errors='replace')
         return template.render_unicode(token=self)
-        t = '--- Start Access Token ---\n'
-
-        if self.get_th():
-            t += "Token Handle: %s\n" % self.get_th()
-        if self.get_token_owner():
-            t += "Token Owner: " + str(self.get_token_owner().get_fq_name()) + "\n"
-        if self.get_token_user():
-            t += "Token User: " + str(self.get_token_user().get_fq_name()) + "\n"
-        if self.get_token_primary_group():
-            t += "Token Group: " + str(self.get_token_primary_group().get_fq_name()) + "\n"
-        t += "Token Type: " + str(self.get_token_type()) + "\n"
-        t += "Token Origin: " + str(self.get_token_origin()) + "\n"
-        t += "Token Source: " + str(self.get_token_source()) + "\n"
-        t += "TokenHasRestrictions: " + str(self.get_token_restrictions()) + "\n"
-        t += "TokenElevationType: " + str(self.get_token_elevation_type()) + "\n"
-        t += "TokenUIAccess: " + str(self.get_token_ui_access()) + "\n"
-        t += "TokenLinkedToken: " + str(self.get_token_linked_token()) + "\n"
-        if self.get_token_linked_token():
-            t += token(self.get_token_linked_token()).as_text_no_rec2()
-        t += "TokenLogonSid: " + str(self.get_token_logon_sid()) + "\n"
-        t += "TokenElevation: " + str(self.get_token_elevation()) + "\n"
-        t += "TokenIntegrityLevel: " + str(self.get_token_integrity_level().get_fq_name()) + "\n"
-        t += "TokenMandatoryPolicy: " + str(self.get_token_mandatory_policy()) + "\n"
-        t += "Token Resitrcted Sids:\n"
-        for sid in self.get_token_restricted_sids():
-            t += "\t" + sid.get_fq_name() + "\n"
-        t += "IsTokenRestricted: " + str(self.get_token_restricted()) + "\n"
-        t += "Token Groups:\n"
-        for g, attr_a in self.get_token_groups():
-            t += "\t%s: %s\n" % (g.get_fq_name(), "|".join(attr_a))
-        t += '--- End Access Token ---\n'
-        return t
 
     def as_text_no_rec3(self):
         template=Template(filename="templates/token.mako",encoding_errors='replace')
         return template.render_unicode(token=self)
-        t = '--- Start Access Token ---\n'
-
-        if self.get_token_owner():
-            t += "Token Owner: " + str(self.get_token_owner().get_fq_name()) + "\n"
-        if self.get_token_user():
-            t += "Token User: " + str(self.get_token_user().get_fq_name()) + "\n"
-        if self.get_token_primary_group():
-            t += "Token Group: " + str(self.get_token_primary_group().get_fq_name()) + "\n"
-        t += "Token Type: " + str(self.get_token_type()) + "\n"
-        t += "Token Origin: " + str(self.get_token_origin()) + "\n"
-        t += "Token Source: " + str(self.get_token_source()) + "\n"
-        t += "TokenHasRestrictions: " + str(self.get_token_restrictions()) + "\n"
-        t += "TokenElevationType: " + str(self.get_token_elevation_type()) + "\n"
-        t += "TokenUIAccess: " + str(self.get_token_ui_access()) + "\n"
-        t += "TokenLinkedToken: " + str(self.get_token_linked_token()) + "\n"
-        #if self.get_token_linked_token():
-        #    t += token(self.get_token_linked_token()).as_text_no_rec2()
-        t += "TokenLogonSid: " + str(self.get_token_logon_sid()) + "\n"
-        t += "TokenElevation: " + str(self.get_token_elevation()) + "\n"
-        t += "TokenIntegrityLevel: " + str(self.get_token_integrity_level().get_fq_name()) + "\n"
-        t += "TokenMandatoryPolicy: " + str(self.get_token_mandatory_policy()) + "\n"
-        t += "Token Resitrcted Sids:\n"
-        for sid in self.get_token_restricted_sids():
-            t += "\t" + sid.get_fq_name() + "\n"
-        t += "IsTokenRestricted: " + str(self.get_token_restricted()) + "\n"
-        t += "Token Groups:\n"
-        for g, attr_a in self.get_token_groups():
-            t += "\t%s: %s\n" % (g.get_fq_name(), "|".join(attr_a))
-        t += '--- End Access Token ---\n'
-        return t
 
     def as_text_no_rec2(self):
         template=Template(filename="templates/token.mako",encoding_errors='replace')
         return template.render_unicode(token=self)
-        t = '--- Start Access Token ---\n'
-
-        if self.get_token_owner():
-            t += "Token Owner: " + str(self.get_token_owner().get_fq_name()) + "\n"
-        if self.get_token_user():
-            t += "Token User: " + str(self.get_token_user().get_fq_name()) + "\n"
-        if self.get_token_primary_group():
-            t += "Token Group: " + str(self.get_token_primary_group().get_fq_name()) + "\n"
-        t += "Token Type: " + str(self.get_token_type()) + "\n"
-        t += "Token Origin: " + str(self.get_token_origin()) + "\n"
-        t += "Token Source: " + str(self.get_token_source()) + "\n"
-        t += "TokenHasRestrictions: " + str(self.get_token_restrictions()) + "\n"
-        t += "TokenElevationType: " + str(self.get_token_elevation_type()) + "\n"
-        t += "TokenUIAccess: " + str(self.get_token_ui_access()) + "\n"
-        t += "TokenLinkedToken: " + str(self.get_token_linked_token()) + "\n"
-        if self.get_token_linked_token():
-            t += token(self.get_token_linked_token()).as_text_no_rec3()
-        t += "TokenLogonSid: " + str(self.get_token_logon_sid()) + "\n"
-        t += "TokenElevation: " + str(self.get_token_elevation()) + "\n"
-        t += "TokenIntegrityLevel: " + str(self.get_token_integrity_level().get_fq_name()) + "\n"
-        t += "TokenMandatoryPolicy: " + str(self.get_token_mandatory_policy()) + "\n"
-        t += "Token Resitrcted Sids:\n"
-        for sid in self.get_token_restricted_sids():
-            t += "\t" + sid.get_fq_name() + "\n"
-        t += "IsTokenRestricted: " + str(self.get_token_restricted()) + "\n"
-        t += "Token Groups:\n"
-        for g, attr_a in self.get_token_groups():
-            t += "\t%s: %s\n" % (g.get_fq_name(), "|".join(attr_a))
-        t += '--- End Access Token ---\n'
-        return t
 
     def as_text(self):
         template=Template(filename="templates/token.mako",encoding_errors='replace')
