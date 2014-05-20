@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
 from wpc.file import file as File
 from wpc.regkey import regkey
 from wpc.sd import sd
+from mako.template import Template
 import os
 import re
 import win32con
@@ -267,58 +269,12 @@ class service:
         return self._as_text(1)
 
     def _as_text(self, flag):
-        t = ""
-        t += "---------------------------------------\n"
-        t += "Service:        " + self.get_name() + "\n"
-        t += "Description:    " + self.get_description() + "\n"
-        t += "Type:           " + str(self.get_type()) + "\n"
-        t += "Status:         " + str(self.get_status()) + "\n"
-        t += "Startup:        " + str(self.get_startup_type()) + "\n"
-        t += "Long Desc:      " + self.removeNonAscii(self.get_long_description()) + "\n"  # in case of stupid chars in desc
-        t += "Binary:         " + self.get_exe_path() + "\n"
-        if self.get_exe_path_clean():
-            t += "Binary (clean): " + self.get_exe_path_clean() + "\n"
-        else:
-            t += "Binary (clean): [Missing Binary]\n"
-        t += "Run as:         " + self.get_run_as() + "\n"
-        t += "Svc Sid Type:   " + str(self.get_service_sid_type()) + "\n"
-        t += "Failure Actions:%s\n" % self.get_service_config_failure_actions()
-        t += "\n"
-        t += "Service Security Descriptor:\n"
-        if self.get_sd():
-            if flag:
-                t += self.get_sd().untrusted_as_text() + "\n"
-            else:
-                t += self.get_sd().as_text() + "\n"
-        else:
-            t += "[unknown]\n"
-        t += "\n"
-        t += "Security Descriptor for Executable:" + "\n"
-        if self.get_exe_file():
-            if flag:
-                t += self.get_exe_file().get_sd().untrusted_as_text() + "\n"
-            else:
-                t += self.get_exe_file().get_sd().as_text() + "\n"
-        else:
-            t += "[unknown]\n"
-
-        t += "Security Descriptor for Registry Key:" + "\n"
-        if self.get_reg_key():
-            if flag:
-                t += self.get_reg_key().get_sd().untrusted_as_text()
-            else:
-                t += self.get_reg_key().as_text()
-        else:
-            t += "[unknown]\n"
-
-        t += "\n"
-        return t
-        return t
+        template=Template(filename="templates/service.mako",encoding_errors='replace')
+        return template.render(svc=self,flag=flag)
 
     def get_reg_key(self):
         if not self.reg_key:
             self.reg_key = regkey("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\" + self.get_name())
         return self.reg_key
 
-    def removeNonAscii(self, s): 
-        return "".join(i for i in s if ord(i) < 128)
+
