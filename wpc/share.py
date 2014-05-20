@@ -1,5 +1,6 @@
 from wpc.file import file as File
 from wpc.sd import sd
+from mako.template import Template
 import win32net
 import wpc.conf
 import pywintypes
@@ -109,36 +110,8 @@ class share:
         return self.sd
 
     def as_text(self):
-        t = '--- start share ---\n'
-        t += 'Share Name: ' + str(self.get_name()) + '\n'
-        t += 'Description: ' + str(self.get_description()) + '\n'
+        f=None
         if self.get_path():
-            t += 'Path: ' + str(self.get_path()) + '\n'
-        else:
-            t += 'Path: None\n'
-        t += 'Passwd: ' + str(self.get_passwd()) + '\n'
-        t += 'Current Uses: ' + str(self.get_current_uses()) + '\n'
-        t += 'Max Uses: ' + str(self.get_max_uses()) + '\n'
-        t += 'Permissions: ' + str(self.get_permissions()) + '\n'
-
-        if self.get_path():
-            f = File(self.get_path())
-            if f.exists():
-                if f.get_sd():
-                    t += 'Directory Security Descriptor:\n'
-                    t += f.get_sd().as_text() + '\n'
-                else:
-                    t += 'Directory Security Descriptor: None (can\'t read sd)\n'
-            else:
-                t += 'Directory Security Descriptor: None (path doesn\'t exist)\n'
-        else:
-            t += 'Directory Security Descriptor: None (no path)\n'
-
-        if self.get_sd():
-            t += 'Share Security Descriptor:\n'
-            t += self.get_sd().as_text() + '\n'
-        else:
-            t += 'Share Security Descriptor: None\n'
-
-        t += '--- end share ---\n'
-        return t
+            f=File(self.get_path())
+        template=Template(filename="templates/share.mako",encoding_errors='replace')
+        return template.render_unicode(share=self,f=f)
