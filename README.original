@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 TODO List
 =========
 
+* TODO *Major code cleanup is needed...*
 * TODO review "read" perms.  should probably ignore these.
 * TODO explaination of what various permissions mean
 * TODO Audit: Process listing, full paths and perms of all processes
@@ -39,7 +40,6 @@ TODO List
 * TODO alert if lanman hashes are being stored (for post-exploitation)
 * TODO alert if named local/domain service accounts are being used (for post-exploitation)
 * TODO Alert if really important patches are missing.  These are metasploitable:
-  * MS10_015 977165 Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (kitrap0d - meterpreter "getsystem")
   * MS03_049 828749 Microsoft Workstation Service NetAddAlternateComputerName Overflow (netapi)     
   * MS04_007 828028 Microsoft ASN.1 Library Bitstring Heap Overflow (killbill)      
   * MS04_011 835732 Microsoft LSASS Service DsRolerUpgradeDownlevelServer Overflow (lsass)    
