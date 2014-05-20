@@ -3,7 +3,7 @@ from wpc.acelist import acelist
 from wpc.principal import principal
 import win32security
 import wpc.conf
-
+from mako.template import Template
 
 class sd(acelist):
     def __init__(self, type, secdesc):
@@ -145,23 +145,6 @@ class sd(acelist):
         return self._as_text(1)
 
     def _as_text(self, flag):
-        s = "--- start %s security descriptor ---\n" % self.get_type()
-        o = self.get_owner()
-        if o:
-            s += "Owner:    " + self.get_owner().get_fq_name() + "\n"
-        else:
-            s += "Owner:   [none] \n"
-
-        g = self.get_group()
-        if g:
-            s += "Group:    " + self.get_group().get_fq_name() + "\n"
-        else:
-            s += "Group:   [none] \n"
-        for a in self.get_aces():
-            if flag:
-                if not a.get_principal().is_trusted():
-                    s += a.as_text() + "\n"
-            else:
-                s += a.as_text() + "\n"            
-        s += "--- end security descriptor ---\n"
-        return s
+        template=Template(filename="templates/sd.mako",encoding_errors='replace')
+        return template.render(sd=self,flag=flag)
+       
