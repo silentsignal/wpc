@@ -1,4 +1,5 @@
 # Not a class, just a bunch of constants
+from __future__ import unicode_literals
 import _winreg
 import ntsecuritycon
 import win32con
@@ -6,7 +7,7 @@ import win32netcon
 import win32service
 
 remote_server = None
-executable_file_extensions = ('exe', 'com', 'bat', 'dll', 'pl', 'rb', 'py', 'php', 'inc', 'asp', 'aspx', 'ocx', 'vbs', 'sys')
+executable_file_extensions = ('exe',r'com',r'bat',r'dll',r'pl',r'rb',r'py',r'php',r'inc',r'asp',r'aspx',r'ocx',r'vbs',r'sys')
 version = None
 cache = None
 on64bitwindows = None
@@ -15,86 +16,86 @@ max_password_age = 365 * 24 * 60 * 60
 screensaver_max_timeout_secs = 600
 
 reg_keys = {
-    'Devices: Unsigned driver installation behavior': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Driver Signing\Policy',
-    'Recovery console: Allow automatic administrative logon ': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel',
-    'Recovery console: Allow floppy copy and access to all drives and all folders': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SetCommand',
-    'Devices: Restrict CD-ROM access to locally logged-on user only': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateCDRoms',
-    'Devices: Allowed to format and eject removable media': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateDASD',
-    'Devices: Restrict floppy access to locally logged-on user only': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateFloppies',
-    'Interactive logon: Number of previous logons to cache (in case domain controller is not available)': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\CachedLogonsCount ',
-    'Interactive logon: Require Domain Controller authentication to unlock workstation': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\ForceUnlockLogon',
-    'Interactive logon: Prompt user to change password before expiration': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\PasswordExpiryWarning',
-    'Interactive logon: Smart card removal behavior': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\ScRemoveOption',
-    'Interactive Logon: Display user information when session is locked': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System, value=DontDisplayLockedUserId',
-    'Interactive logon: Do not require CTRL+ALT+DELETE': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCAD',
-    'Interactive logon: Do not display last user name': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\DontDisplayLastUserName',
-    'Network security: Configure encryption types allowed for Kerberos': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters\SupportedEncryptionTypes',
-    'Interactive logon: Message title for users attempting to logon': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\LegalNoticeCaption',
-    'Interactive logon: Message text for users attempting to logon': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\LegalNoticeText',
-    'Interactive logon: Require smart card': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ScForceOption',
-    'Shutdown: Allow system to be shut down without having to log on': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ShutdownWithoutLogon',
-    'Devices: Allow undock without having to log on': 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\UndockWithoutLogon',
-    'System Cryptography: Force strong key protection for user keys stored on the computer': 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Cryptography\ForceKeyProtection',
-    'DCOM: HKEY_LOCAL_MACHINE Access Restrictions in Security Descriptor Definition Language (SDDL) syntax': 'HKEY_LOCAL_MACHINE\SOFTWARE\policies\Microsoft\windows NT\DCOM\MachineAccessRestriction',
-    'DCOM: HKEY_LOCAL_MACHINE Launch Restrictions in Security Descriptor Definition Language (SDDL) syntax': 'HKEY_LOCAL_MACHINE\SOFTWARE\policies\Microsoft\windows NT\DCOM\MachineLaunchRestriction',
-    'System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies': 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers\AuthenticodeEnabled',
-    'Audit: Audit the accesss of global system objects': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\AuditBaseObjects',
-    'Audit: Shut down system immediately if unable to log security audits': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\CrashOnAuditFail',
-    'Network access: Do not allow storage of credentials or .NET Passports for network authentication': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\DisableDomainCreds',
-    'Network access: Let Everyone permissions apply to anonymous users': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous',
-    'System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy',
-    'Network access: Sharing and security model for local accounts': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\ForceGuest',
-    'Audit: Audit the use of Backup and Restore privilege': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FullPrivilegeAuditing',
-    'Accounts: Limit local account use of blank passwords to console logon only': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\LimitBlankPasswordUse',
-    'Network security: LAN Manager authentication level': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\LmCompatibilityLevel',
-    'Network security: Allow LocalSystem NULL session fallback': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\allownullsessionfallback',
-    'Network security: Restrict NTLM: Audit Incoming NTLM Traffic': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\AuditReceivingNTLMTraffic',
-    'Network security: Restrict NTLM: Add remote server exceptions for NTLM authentication': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\ClientAllowedNTLMServers',
-    'Network security: Minimum session security for NTLM SSP based (including secure RPC) clients': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinClientSec',
-    'Network security: Minimum session security for NTLM SSP based (including secure RPC) servers': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinServerSec',
-    'Network security: Restrict NTLM: Incoming NTLM traffic': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\RestrictReceivingNTLMTraffic',
-    'Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\RestrictSendingNTLMTraffic',
-    'System objects: Default owner for objects created by members of the Administrators group': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\NoDefaultAdminOwner',
-    'Network security: Do not store LAN Manager hash value on next password change': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\NoLMHash',
-    'Network security: Allow PKU2U authentication requests to this computer to use online identities.': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\pku2u\AllowOnlineID',
-    'Network access: Do not allow anonymous enumeration of SAM accounts and shares': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\RestrictAnonymous',
-    'Network access: Do not allow anonymous enumeration of SAM accounts': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\RestrictAnonymousSAM',
-    'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\SCENoApplyLegacyAuditPolicy',
-    'Domain controller: Allow server operators to schedule tasks': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\SubmitControl',
-    'Network security: Allow Local System to use computer identity for NTLM': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\UseMachineId',
-    'Devices: Prevent users from installing printer drivers': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers\AddPrinterDrivers',
-    'Network access: Remotely accessible registry paths': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths\Machine',
-    'Network access: Remotely accessible registry paths and subpaths': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths\Machine',
-    'System objects: Require case insensitivity for non-Windows subsystems': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Kernel\ObCaseInsensitive',
-    'Shutdown: Clear virtual memory pagefile': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Memory Management\ClearPageFileAtShutdown',
-    'System objects: Strengthen default permissions of internal system objects (e.g., Symbolic Links) ': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\ProtectionMode',
-    'System settings: Optional subsystems': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\SubSystems\optional',
-    'Microsoft network server: Amount of idle time required before suspending session': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\AutoDisconnect',
-    'Microsoft network server: Disconnect clients when logon hours expire': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\EnableForcedLogOff',
-    'Microsoft network server: Digitally sign communications (if client agrees)': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\EnableSecuritySignature',
-    'Network access: Named Pipes that can be accessed anonymously': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionPipes',
-    'Network access: Restrict anonymous access to Named Pipes and Shares': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionShares',
-    'Network access: Shares that can be accessed anonymously': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionShares ',
-    'Microsoft network server: Digitally sign communications (always)': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\RequireSecuritySignature',
-    'Microsoft network server: Server SPN target name validation level': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\SmbServerNameHardeningLevel',
-    'Microsoft network client: Send unencrypted password to third-party SMB servers': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\EnablePlainTextPassword',
-    'Microsoft network client: Digitally sign communications (if server agrees) ': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\EnableSecuritySignature',
-    'Microsoft network client: Digitally sign communications (always)': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\RequireSecuritySignature',
-    'Network security: LDAP client signing requirements': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LDAP\LDAPClientIntegrity',
-    'Network security: Restrict NTLM: Audit NTLM authentication in this domain': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\AuditNTLMInDomain',
-    'Network security: Restrict NTLM: Add server exceptions in this domain': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\DCAllowedNTLMServers',
-    'Domain member: Disable HKEY_LOCAL_MACHINE account password changes': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\DisablePasswordChange',
-    'Domain member: Maximum HKEY_LOCAL_MACHINE account password age': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\MaximumPasswordAge',
-    'Domain controller: Refuse HKEY_LOCAL_MACHINE account password changes': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RefusePasswordChange',
-    'Domain member: Digitally encrypt or sign secure channel data (always)': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RequireSignOrSeal',
-    'Domain member: Require strong (Windows 2000 or later) session key': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RequireStrongKey',
-    '"Network security: Restrict NTLM:  NTLM authentication in this domain': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RestrictNTLMInDomain',
-    'Domain member: Digitally encrypt secure channel data (when possible)': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\SealSecureChannel',
-    'Domain member: Digitally sign secure channel data (when possible) ': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\SignSecureChannel',
-    'Domain controller: LDAP server signing requirements': 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\NTDS\Parameters\LDAPServerIntegrity',
+   r'Devices: Unsigned driver installation behavior':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Driver Signing\Policy',
+   r'Recovery console: Allow automatic administrative logonr':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel',
+   r'Recovery console: Allow floppy copy and access to all drives and all folders':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SetCommand',
+   r'Devices: Restrict CD-ROM access to locally logged-on user only':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateCDRoms',
+   r'Devices: Allowed to format and eject removable media':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateDASD',
+   r'Devices: Restrict floppy access to locally logged-on user only':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AllocateFloppies',
+   r'Interactive logon: Number of previous logons to cache (in case domain controller is not available)':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\CachedLogonsCountr',
+   r'Interactive logon: Require Domain Controller authentication to unlock workstation':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\ForceUnlockLogon',
+   r'Interactive logon: Prompt user to change password before expiration':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\PasswordExpiryWarning',
+   r'Interactive logon: Smart card removal behavior':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\ScRemoveOption',
+   r'Interactive Logon: Display user information when session is locked':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System, value=DontDisplayLockedUserId',
+   r'Interactive logon: Do not require CTRL+ALT+DELETE':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCAD',
+   r'Interactive logon: Do not display last user name':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\DontDisplayLastUserName',
+   r'Network security: Configure encryption types allowed for Kerberos':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters\SupportedEncryptionTypes',
+   r'Interactive logon: Message title for users attempting to logon':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\LegalNoticeCaption',
+   r'Interactive logon: Message text for users attempting to logon':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\LegalNoticeText',
+   r'Interactive logon: Require smart card':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ScForceOption',
+   r'Shutdown: Allow system to be shut down without having to log on':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ShutdownWithoutLogon',
+   r'Devices: Allow undock without having to log on':r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\\UndockWithoutLogon',
+   r'System Cryptography: Force strong key protection for user keys stored on the computer':r'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Cryptography\ForceKeyProtection',
+   r'DCOM: HKEY_LOCAL_MACHINE Access Restrictions in Security Descriptor Definition Language (SDDL) syntax':r'HKEY_LOCAL_MACHINE\SOFTWARE\policies\Microsoft\windows NT\DCOM\MachineAccessRestriction',
+   r'DCOM: HKEY_LOCAL_MACHINE Launch Restrictions in Security Descriptor Definition Language (SDDL) syntax':r'HKEY_LOCAL_MACHINE\SOFTWARE\policies\Microsoft\windows NT\DCOM\MachineLaunchRestriction',
+   r'System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies':r'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers\AuthenticodeEnabled',
+   r'Audit: Audit the accesss of global system objects':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\AuditBaseObjects',
+   r'Audit: Shut down system immediately if unable to log security audits':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\CrashOnAuditFail',
+   r'Network access: Do not allow storage of credentials or .NET Passports for network authentication':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\DisableDomainCreds',
+   r'Network access: Let Everyone permissions apply to anonymous users':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous',
+   r'System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy',
+   r'Network access: Sharing and security model for local accounts':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\ForceGuest',
+   r'Audit: Audit the use of Backup and Restore privilege':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FullPrivilegeAuditing',
+   r'Accounts: Limit local account use of blank passwords to console logon only':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\LimitBlankPasswordUse',
+   r'Network security: LAN Manager authentication level':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\LmCompatibilityLevel',
+   r'Network security: Allow LocalSystem NULL session fallback':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\allownullsessionfallback',
+   r'Network security: Restrict NTLM: Audit Incoming NTLM Traffic':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\AuditReceivingNTLMTraffic',
+   r'Network security: Restrict NTLM: Add remote server exceptions for NTLM authentication':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\ClientAllowedNTLMServers',
+   r'Network security: Minimum session security for NTLM SSP based (including secure RPC) clients':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinClientSec',
+   r'Network security: Minimum session security for NTLM SSP based (including secure RPC) servers':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinServerSec',
+   r'Network security: Restrict NTLM: Incoming NTLM traffic':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\RestrictReceivingNTLMTraffic',
+   r'Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\RestrictSendingNTLMTraffic',
+   r'System objects: Default owner for objects created by members of the Administrators group':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\NoDefaultAdminOwner',
+   r'Network security: Do not store LAN Manager hash value on next password change':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\NoLMHash',
+   r'Network security: Allow PKU2U authentication requests to this computer to use online identities.':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\pku2u\AllowOnlineID',
+   r'Network access: Do not allow anonymous enumeration of SAM accounts and shares':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\RestrictAnonymous',
+   r'Network access: Do not allow anonymous enumeration of SAM accounts':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\RestrictAnonymousSAM',
+   r'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\SCENoApplyLegacyAuditPolicy',
+   r'Domain controller: Allow server operators to schedule tasks':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\SubmitControl',
+   r'Network security: Allow Local System to use computer identity for NTLM':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\\UseMachineId',
+   r'Devices: Prevent users from installing printer drivers':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers\AddPrinterDrivers',
+   r'Network access: Remotely accessible registry paths':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths\Machine',
+   r'Network access: Remotely accessible registry paths and subpaths':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths\Machine',
+   r'System objects: Require case insensitivity for non-Windows subsystems':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Kernel\ObCaseInsensitive',
+   r'Shutdown: Clear virtual memory pagefile':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Memory Management\ClearPageFileAtShutdown',
+   r'System objects: Strengthen default permissions of internal system objects (e.g., Symbolic Links)r':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\ProtectionMode',
+   r'System settings: Optional subsystems':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\SubSystems\optional',
+   r'Microsoft network server: Amount of idle time required before suspending session':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\AutoDisconnect',
+   r'Microsoft network server: Disconnect clients when logon hours expire':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\EnableForcedLogOff',
+   r'Microsoft network server: Digitally sign communications (if client agrees)':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\EnableSecuritySignature',
+   r'Network access: Named Pipes that can be accessed anonymously':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionPipes',
+   r'Network access: Restrict anonymous access to Named Pipes and Shares':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionShares',
+   r'Network access: Shares that can be accessed anonymously':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\NullSessionSharesr',
+   r'Microsoft network server: Digitally sign communications (always)':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\RequireSecuritySignature',
+   r'Microsoft network server: Server SPN target name validation level':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters\SmbServerNameHardeningLevel',
+   r'Microsoft network client: Send unencrypted password to third-party SMB servers':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\EnablePlainTextPassword',
+   r'Microsoft network client: Digitally sign communications (if server agrees)r':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\EnableSecuritySignature',
+   r'Microsoft network client: Digitally sign communications (always)':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters\RequireSecuritySignature',
+   r'Network security: LDAP client signing requirements':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LDAP\LDAPClientIntegrity',
+   r'Network security: Restrict NTLM: Audit NTLM authentication in this domain':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\AuditNTLMInDomain',
+   r'Network security: Restrict NTLM: Add server exceptions in this domain':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\DCAllowedNTLMServers',
+   r'Domain member: Disable HKEY_LOCAL_MACHINE account password changes':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\DisablePasswordChange',
+   r'Domain member: Maximum HKEY_LOCAL_MACHINE account password age':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\MaximumPasswordAge',
+   r'Domain controller: Refuse HKEY_LOCAL_MACHINE account password changes':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RefusePasswordChange',
+   r'Domain member: Digitally encrypt or sign secure channel data (always)':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RequireSignOrSeal',
+   r'Domain member: Require strong (Windows 2000 or later) session key':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RequireStrongKey',
+   r'"Network security: Restrict NTLM:  NTLM authentication in this domain':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\RestrictNTLMInDomain',
+   r'Domain member: Digitally encrypt secure channel data (when possible)':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\SealSecureChannel',
+   r'Domain member: Digitally sign secure channel data (when possible)r':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters\SignSecureChannel',
+   r'Domain controller: LDAP server signing requirements':r'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\NTDS\Parameters\LDAPServerIntegrity',
 }
 
-msexploitstring = '''
+msexploitstring =r'''
    aix/rpc_cmsd_opcode21                                          2009-10-07       great      AIX Calendar Manager Service Daemon (rpc.cmsd) Opcode 21 Buffer Overflow
    aix/rpc_ttdbserverd_realpath                                   2009-06-17       great      ToolTalk rpc.ttdbserverd _tt_internal_realpath Buffer Overflow (AIX)
    apple_ios/browser/safari_libtiff                               2006-08-01       good       Apple iOS MobileSafari LibTIFF Buffer Overflow
@@ -449,7 +450,7 @@ msexploitstring = '''
    windows/brightstor/tape_engine_8A                              2010-10-04       average    CA BrightStor ARCserve Tape Engine 0x8A Buffer Overflow
    windows/brightstor/universal_agent                             2005-04-11       average    CA BrightStor Universal Agent Overflow
    windows/browser/adobe_cooltype_sing                            2010-09-07       great      Adobe CoolType SING Table "uniqueName" Stack Buffer Overflow
-   windows/browser/adobe_flash_mp4_cprt                           2012-02-15       normal     Adobe Flash Player MP4 'cprt' Overflow
+   windows/browser/adobe_flash_mp4_cprt                           2012-02-15       normal     Adobe Flash Player MP4r'cprt' Overflow
    windows/browser/adobe_flash_otf_font                           2012-08-09       normal     Adobe Flash Player 11.3 Kern Table Parsing Integer Overflow
    windows/browser/adobe_flash_rtmp                               2012-05-04       normal     Adobe Flash Player Object Type Confusion
    windows/browser/adobe_flash_sps                                2011-08-09       normal     Adobe Flash Player MP4 SequenceParameterSetNALUnit Buffer Overflow
@@ -465,7 +466,7 @@ msexploitstring = '''
    windows/browser/adobe_utilprintf                               2008-02-08       good       Adobe util.printf() Buffer Overflow
    windows/browser/aim_goaway                                     2004-08-09       great      AOL Instant Messenger goaway Overflow
    windows/browser/aladdin_choosefilepath_bof                     2012-04-01       normal     Aladdin Knowledge System Ltd ChooseFilePath Buffer Overflow
-   windows/browser/amaya_bdo                                      2009-01-28       normal     Amaya Browser v11.0 'bdo' Tag Overflow
+   windows/browser/amaya_bdo                                      2009-01-28       normal     Amaya Browser v11.0r'bdo' Tag Overflow
    windows/browser/aol_ampx_convertfile                           2009-05-19       normal     AOL Radio AmpX ActiveX Control ConvertFile() Buffer Overflow
    windows/browser/aol_icq_downloadagent                          2006-11-06       excellent  America Online ICQ ActiveX Control Arbitrary File Download and Execute
    windows/browser/apple_itunes_playlist                          2005-01-11       normal     Apple ITunes 4.7 Playlist Buffer Overflow
@@ -611,7 +612,7 @@ msexploitstring = '''
    windows/browser/oracle_webcenter_checkoutandopen               2013-04-16       excellent  Oracle WebCenter Content CheckOutAndOpen.dll ActiveX Remote Code Execution
    windows/browser/orbit_connecting                               2009-02-03       normal     Orbit Downloader Connecting Log Creation Buffer Overflow
    windows/browser/ovftool_format_string                          2012-11-08       normal     VMWare OVF Tools Format String Vulnerability
-   windows/browser/pcvue_func                                     2011-10-05       average    PcVue 10.0 SV.UIGrdCtrl.1 'LoadObject()/SaveObject()' Trusted DWORD Vulnerability
+   windows/browser/pcvue_func                                     2011-10-05       average    PcVue 10.0 SV.UIGrdCtrl.1r'LoadObject()/SaveObject()' Trusted DWORD Vulnerability
    windows/browser/persits_xupload_traversal                      2009-09-29       excellent  Persits XUpload ActiveX MakeHttpRequest Directory Traversal
    windows/browser/quickr_qp2_bof                                 2012-05-23       normal     IBM Lotus QuickR qp2 ActiveX Buffer Overflow
    windows/browser/real_arcade_installerdlg                       2011-04-03       normal     Real Networks Arcade Games StubbyUtil.ProcessMgr ActiveX Arbitrary Code Execution
@@ -913,7 +914,7 @@ msexploitstring = '''
    windows/http/hp_nnm_webappmon_execvp                           2010-07-20       great      HP OpenView Network Node Manager execvp_nc Buffer Overflow
    windows/http/hp_nnm_webappmon_ovjavalocale                     2010-08-03       great      HP NNM CGI webappmon.exe OvJavaLocale Buffer Overflow
    windows/http/hp_openview_insight_backdoor                      2011-01-31       excellent  HP OpenView Performance Insight Server Backdoor Account Code Execution
-   windows/http/hp_power_manager_filename                         2011-10-19       normal     HP Power Manager 'formExportDataLogs' Buffer Overflow
+   windows/http/hp_power_manager_filename                         2011-10-19       normal     HP Power Managerr'formExportDataLogs' Buffer Overflow
    windows/http/hp_power_manager_login                            2009-11-04       average    Hewlett-Packard Power Manager Administration Buffer Overflow
    windows/http/hp_sys_mgmt_exec                                  2013-06-11       excellent  HP System Management Homepage JustGetSNMPQueue Command Injection
    windows/http/httpdx_handlepeer                                 2009-10-08       great      HTTPDX h_handlepeer() Function Buffer Overflow
@@ -1228,7 +1229,7 @@ msexploitstring = '''
    windows/wins/ms04_045_wins                                     2004-12-14       great      Microsoft WINS Service Memory Overwrite
 '''
 
-ms_spreadsheet_xslt_str = '''
+ms_spreadsheet_xslt_str =r'''
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="text" encoding="utf-8" />
 
@@ -1265,41 +1266,41 @@ ms_spreadsheet_xslt_str = '''
 '''
 
 kb_nos = {
-        '977165': 'MS10_015 Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (kitrap0d - meterpreter "getsystem")',
-        '828749': 'MS03_049 Microsoft Workstation Service NetAddAlternateComputerName Overflow (netapi)     ',
-        '828028': 'MS04_007 Microsoft ASN.1 Library Bitstring Heap Overflow (killbill)      ',
-        '835732': 'MS04_011 Microsoft LSASS Service DsRolerUpgradeDownlevelServer Overflow (lsass)    ',
-        '841533': 'MS04_031 Microsoft NetDDE Service Overflow (netdde)',
-        '899588': 'MS05_039 Microsoft Plug and Play Service Overflow (pnp)',
-        '911280': 'MS06_025 Microsoft RRAS Service RASMAN Registry Overflow (rasmans_reg)',
-        '911280': 'MS06_025 Microsoft RRAS Service Overflow (rras)',
-        '921883': 'MS06_040 Microsoft Server Service NetpwPathCanonicalize Overflow (netapi)',
-        '923980': 'MS06_066 Microsoft Services MS06-066 nwapi32.dll (nwapi)',
-        '923980': 'MS06_066 Microsoft Services MS06-066 nwwks.dll (nwwks)',
-        '924270': 'MS06_070 Microsoft Workstation Service NetpManageIPCConnect Overflow (wkssvc)',
-        '935966': 'MS07_029 Microsoft DNS RPC Service extractQuotedChar() Overflow (SMB) (msdns_zonename)',
-        '958644': 'MS08_067 Microsoft Server Service Relative Path Stack Corruption (netapi)',
-        '975517': 'MS09_050 Microsoft SRV2.SYS SMB Negotiate ProcessID Function Table Dereference (smb2_negotiate_func_index)',
-        '823980': 'MS03_026 Microsoft RPC DCOM Interface Overflow',
-        '892944': 'MS05_017 Microsoft Message Queueing Service Path Overflow',
-        '937894': 'MS07_065 Microsoft Message Queueing Service DNS Name Path Overflow'
+       r'977165':r'MS10_015 Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (kitrap0d - meterpreter "getsystem")',
+       r'828749':r'MS03_049 Microsoft Workstation Service NetAddAlternateComputerName Overflow (netapi)    r',
+       r'828028':r'MS04_007 Microsoft ASN.1 Library Bitstring Heap Overflow (killbill)     r',
+       r'835732':r'MS04_011 Microsoft LSASS Service DsRolerUpgradeDownlevelServer Overflow (lsass)   r',
+       r'841533':r'MS04_031 Microsoft NetDDE Service Overflow (netdde)',
+       r'899588':r'MS05_039 Microsoft Plug and Play Service Overflow (pnp)',
+       r'911280':r'MS06_025 Microsoft RRAS Service RASMAN Registry Overflow (rasmans_reg)',
+       r'911280':r'MS06_025 Microsoft RRAS Service Overflow (rras)',
+       r'921883':r'MS06_040 Microsoft Server Service NetpwPathCanonicalize Overflow (netapi)',
+       r'923980':r'MS06_066 Microsoft Services MS06-066 nwapi32.dll (nwapi)',
+       r'923980':r'MS06_066 Microsoft Services MS06-066 nwwks.dll (nwwks)',
+       r'924270':r'MS06_070 Microsoft Workstation Service NetpManageIPCConnect Overflow (wkssvc)',
+       r'935966':r'MS07_029 Microsoft DNS RPC Service extractQuotedChar() Overflow (SMB) (msdns_zonename)',
+       r'958644':r'MS08_067 Microsoft Server Service Relative Path Stack Corruption (netapi)',
+       r'975517':r'MS09_050 Microsoft SRV2.SYS SMB Negotiate ProcessID Function Table Dereference (smb2_negotiate_func_index)',
+       r'823980':r'MS03_026 Microsoft RPC DCOM Interface Overflow',
+       r'892944':r'MS05_017 Microsoft Message Queueing Service Path Overflow',
+       r'937894':r'MS07_065 Microsoft Message Queueing Service DNS Name Path Overflow'
 }
 
 reg_paths = (
-    'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services',
-#    'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit',
-    'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce',
-#    'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce',
-    'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices',
-    'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce',
-#    'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices',
-#    'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce',
-#    'HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows',
+   r'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services',
+#   r'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run',
+   r'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run',
+   r'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce',
+   r'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run',
+   r'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell',
+   r'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\\Userinit',
+   r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce',
+#   r'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce',
+   r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices',
+   r'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce',
+#   r'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices',
+#   r'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce',
+#   r'HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows',
 )
 
 # We don't care if some users / groups hold dangerous permission because they're trusted
@@ -1319,7 +1320,7 @@ trusted_principals_fq = [
 #)
 trusted_principals = []
 
-eventlog_key_hklm = 'SYSTEM\CurrentControlSet\Services\Eventlog'
+eventlog_key_hklm =r'SYSTEM\CurrentControlSet\Services\Eventlog'
 
 # Windows privileges from 
 windows_privileges = (
@@ -1444,7 +1445,7 @@ sid_type = {
 
 dangerous_perms_write = {
     # http://www.tek-tips.com/faqs.cfm?fid
-    'share': {
+   r'share': {
         ntsecuritycon: (
             "FILE_READ_DATA",
             "FILE_WRITE_DATA",
@@ -1461,7 +1462,7 @@ dangerous_perms_write = {
             "SYNCHRONIZE",
         )
     },
-    'file': {
+   r'file': {
         ntsecuritycon: (
             #"FILE_READ_DATA",
             "FILE_WRITE_DATA",
@@ -1501,7 +1502,7 @@ dangerous_perms_write = {
     # "READ_CONTROL",
     # "WRITE_DAC",
     #"WRITE_OWNER",
-    'regkey': {
+   r'regkey': {
         _winreg: (
             #"KEY_ALL_ACCESS",  # Combines the STANDARD_RIGHTS_REQUIRED, KEY_QUERY_VALUE, KEY_SET_VALUE, KEY_CREATE_SUB_KEY, KEY_ENUMERATE_SUB_KEYS, KEY_NOTIFY, and KEY_CREATE_LINK access rights.
             #"KEY_QUERY_VALUE", # GUI "Query Value"
@@ -1526,7 +1527,7 @@ dangerous_perms_write = {
             #"STANDARD_RIGHTS_READ",
         )
     },
-    'directory': {
+   r'directory': {
         ntsecuritycon: (
             #"FILE_LIST_DIRECTORY",
             "FILE_ADD_FILE",
@@ -1544,7 +1545,7 @@ dangerous_perms_write = {
             #"SYNCHRONIZE",
         )
     },
-    'service_manager': {
+   r'service_manager': {
         # For service manager
         # http://msdn.microsoft.com/en-us/library/ms685981(VS.85).aspx
         # SC_MANAGER_ALL_ACCESS (0xF003F)    Includes STANDARD_RIGHTS_REQUIRED, in addition to all access rights in this table.
@@ -1565,7 +1566,7 @@ dangerous_perms_write = {
         )
     },
     # http://msdn.microsoft.com/en-gb/library/windows/desktop/ms686769(v=vs.85).aspx
-    'thread': {
+   r'thread': {
         win32con: (
             "THREAD_TERMINATE",
             #"THREAD_SUSPEND_RESUME",
@@ -1589,7 +1590,7 @@ dangerous_perms_write = {
         )
     },
     # http://msdn.microsoft.com/en-us/library/ms684880(v=vs.85).aspx
-    'process': {
+   r'process': {
         win32con: (
             "PROCESS_TERMINATE",
             "PROCESS_CREATE_THREAD",
@@ -1625,7 +1626,7 @@ dangerous_perms_write = {
             #"GENERIC_ALL"
         )
     },
-    'token': {
+   r'token': {
         win32con: (
             "TOKEN_ADJUST_DEFAULT",
             "TOKEN_ADJUST_GROUPS",
@@ -1649,7 +1650,7 @@ dangerous_perms_write = {
             #"SYNCHRONIZE",
         )
     },
-    'service': {
+   r'service': {
         # For services:
         # http://msdn.microsoft.com/en-us/library/ms685981(VS.85).aspx
         # SERVICE_ALL_ACCESS (0xF01FF)    Includes STANDARD_RIGHTS_REQUIRED in addition to all access rights in this table.
@@ -1689,7 +1690,7 @@ win32con.PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 win32con.PROCESS_SUSPEND_RESUME = 0x0800
 
 all_perms = {
-    'share': {
+   r'share': {
         ntsecuritycon: (
             "FILE_READ_DATA",
             "FILE_WRITE_DATA",
@@ -1706,7 +1707,7 @@ all_perms = {
             "SYNCHRONIZE",
         )
     },
-    'file': {
+   r'file': {
         ntsecuritycon: (
             "FILE_READ_DATA",
             "FILE_WRITE_DATA",
@@ -1723,7 +1724,7 @@ all_perms = {
             "SYNCHRONIZE",
         )
     },
-    'regkey': {
+   r'regkey': {
         _winreg: (
             #"KEY_ALL_ACCESS",
             "KEY_CREATE_LINK",
@@ -1749,7 +1750,7 @@ all_perms = {
             #"SYNCHRONIZE",
         )
     },
-    'directory': {
+   r'directory': {
         ntsecuritycon: (
             "FILE_LIST_DIRECTORY",
             "FILE_ADD_FILE",
@@ -1767,7 +1768,7 @@ all_perms = {
             "SYNCHRONIZE",
         )
     },
-    'service_manager': {
+   r'service_manager': {
         win32service: (
             "SC_MANAGER_ALL_ACCESS",
             "SC_MANAGER_CREATE_SERVICE",
@@ -1778,7 +1779,7 @@ all_perms = {
             "SC_MANAGER_QUERY_LOCK_STATUS",
         )
     },
-    'service': {
+   r'service': {
         win32service: (
             "SERVICE_INTERROGATE",
             "SERVICE_QUERY_STATUS",
@@ -1812,7 +1813,7 @@ all_perms = {
         )
     },
     # http://msdn.microsoft.com/en-gb/library/windows/desktop/ms686769(v=vs.85).aspx
-    'thread': {
+   r'thread': {
         win32con: (
             "THREAD_TERMINATE",
             "THREAD_SUSPEND_RESUME",
@@ -1836,7 +1837,7 @@ all_perms = {
         )
     },
     # http://msdn.microsoft.com/en-us/library/ms684880(v=vs.85).aspx
-    'process': {
+   r'process': {
         win32con: (
             "PROCESS_TERMINATE",
             "PROCESS_CREATE_THREAD",
@@ -1872,7 +1873,7 @@ all_perms = {
             #"GENERIC_ALL"
         )
     },
-    'thread': {
+   r'thread': {
         win32con: (
             "THREAD_TERMINATE",
             "THREAD_SUSPEND_RESUME",
@@ -1895,7 +1896,7 @@ all_perms = {
             "SYNCHRONIZE",
         )
     },
-    'token': {
+   r'token': {
         win32con: (
             "TOKEN_ADJUST_DEFAULT",
             "TOKEN_ADJUST_GROUPS",
@@ -1927,626 +1928,626 @@ issues = {}
 
 # TODO: Use a big XML file instead.  Read it in to generate this dictionary.
 issue_template = {
-    'WPC001': {
-       'title': "Insecure Permissions on Program Files",
-       'description': '''Some of the programs in %ProgramFiles% and/or %ProgramFiles(x86)% could be changed by non-administrative users.
+   r'WPC001': {
+      r'title': "Insecure Permissions on Program Files",
+      r'description':r'''Some of the programs in %ProgramFiles% and/or %ProgramFiles(x86)% could be changed by non-administrative users.
 
 This could allow certain users on the system to place malicious code into certain key directories, or to replace programs with malicious ones.  A malicious local user could use this technique to hijack the privileges of other local users, running commands with their privileges.
 ''',
-       'recommendation': '''Programs run by multiple users should only be changable only by administrative users.  The directories containing these programs should only be changable only by administrators too.  Revoke write privileges for non-administrative users from the above programs and directories.''',
-       'supporting_data': {
-          'writable_progs': {
-             'section': "description",
-             'preamble': "The programs below can be modified by non-administrative users:",
+      r'recommendation':r'''Programs run by multiple users should only be changable only by administrative users.  The directories containing these programs should only be changable only by administrators too.  Revoke write privileges for non-administrative users from the above programs and directories.''',
+      r'supporting_data': {
+         r'writable_progs': {
+            r'section': "description",
+            r'preamble': "The programs below can be modified by non-administrative users:",
           },
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The directories below can be changed by non-administrative users:",
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The directories below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC002': {
-       'title': "Insecure Permissions on Files and Directories in Path (OBSELETE ISSUE)",
-       'description': '''Some of the programs and directories in the %PATH% variable could be changed by non-administrative users.
+   r'WPC002': {
+      r'title': "Insecure Permissions on Files and Directories in Path (OBSELETE ISSUE)",
+      r'description':r'''Some of the programs and directories in the %PATH% variable could be changed by non-administrative users.
 
 This could allow certain users on the system to place malicious code into certain key directories, or to replace programs with malicious ones.  A malicious local user could use this technique to hijack the privileges of other local users, running commands with their privileges.
 ''',
-       'recommendation': '''Programs run by multiple users should only be changable only by administrative users.  The directories containing these programs should only be changable only by administrators too.  Revoke write privileges for non-administrative users from the above programs and directories.''',
-       'supporting_data': {
-          'writable_progs': {
-             'section': "description",
-             'preamble': "The programs below are in the path of the user used to carry out this audit.  Each one can be changed by non-administrative users:",
+      r'recommendation':r'''Programs run by multiple users should only be changable only by administrative users.  The directories containing these programs should only be changable only by administrators too.  Revoke write privileges for non-administrative users from the above programs and directories.''',
+      r'supporting_data': {
+         r'writable_progs': {
+            r'section': "description",
+            r'preamble': "The programs below are in the path of the user used to carry out this audit.  Each one can be changed by non-administrative users:",
           },
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The directories below are in the path of the user used to carry out this audit.  Each one can be changed by non-administrative users:",
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The directories below are in the path of the user used to carry out this audit.  Each one can be changed by non-administrative users:",
           }
        }
     },
     # TODO walk the whole registry looking for .exe and .dll in data?
-    'WPC003': {
-       'title': "Insecure Permissions In Windows Registry (TODO)",
-       'description': '''Some registry keys that hold the names of programs run by other users were checked and found to have insecure permissions.  It would be possible for non-administrative users to modify the registry to cause different programs to be run.  This weakness could be abused by low-privileged users to run commands of their choosing with higher privileges.''',
-       'recommendation': '''Modify the permissions on the above registry keys to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'writable_reg_paths': {
-             'section': "description",
-             'preamble': "The registry keys below could be changed by non-administrative users:",
+   r'WPC003': {
+      r'title': "Insecure Permissions In Windows Registry (TODO)",
+      r'description':r'''Some registry keys that hold the names of programs run by other users were checked and found to have insecure permissions.  It would be possible for non-administrative users to modify the registry to cause different programs to be run.  This weakness could be abused by low-privileged users to run commands of their choosing with higher privileges.''',
+      r'recommendation':r'''Modify the permissions on the above registry keys to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'writable_reg_paths': {
+            r'section': "description",
+            r'preamble': "The registry keys below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC005': {
-       'title': "Insecure Permissions On Windows Service Registry Keys (OBSELETED by WPC038 and others)",
-       'description': '''Some registry keys that hold the names of programs that are run when Windows Services start were found to have weak file permissions.  They could be changed by non-administrative users to cause malicious programs to be run instead of the intended Windows Service Executable.''',
-       'recommendation': '''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'writable_reg_paths': {
-             'section': "description",
-             'preamble': "The registry keys below could be changed by non-administrative users:",
+   r'WPC005': {
+      r'title': "Insecure Permissions On Windows Service Registry Keys (OBSELETED by WPC038 and others)",
+      r'description':r'''Some registry keys that hold the names of programs that are run when Windows Services start were found to have weak file permissions.  They could be changed by non-administrative users to cause malicious programs to be run instead of the intended Windows Service Executable.''',
+      r'recommendation':r'''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'writable_reg_paths': {
+            r'section': "description",
+            r'preamble': "The registry keys below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC007': {
-       'title': "Write Permissions Allowed On Event Log File",
-       'description': '''Some of the Event Log files could be changed by non-administrative users.  This may allow attackers to cover their tracks.''',
-       'recommendation': '''Modify the permissions on the above files to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'writable_eventlog_file': {
-             'section': "description",
-             'preamble': "The files below could be changed by non-administrative users:",
+   r'WPC007': {
+      r'title': "Write Permissions Allowed On Event Log File",
+      r'description':r'''Some of the Event Log files could be changed by non-administrative users.  This may allow attackers to cover their tracks.''',
+      r'recommendation':r'''Modify the permissions on the above files to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'writable_eventlog_file': {
+            r'section': "description",
+            r'preamble': "The files below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC008': {
-       'title': "Insecure Permissions On Event Log DLL",
-       'description': '''Some DLL files used by Event Viewer to display logs could be changed by non-administrative users.  It may be possible to replace these with a view to having code run when an administrative user next views log files.''',
-       'recommendation': '''Modify the permissions on the above DLLs to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'writable_eventlog_dll': {
-             'section': "description",
-             'preamble': "The DLL files below could be changed by non-administrative users:",
+   r'WPC008': {
+      r'title': "Insecure Permissions On Event Log DLL",
+      r'description':r'''Some DLL files used by Event Viewer to display logs could be changed by non-administrative users.  It may be possible to replace these with a view to having code run when an administrative user next views log files.''',
+      r'recommendation':r'''Modify the permissions on the above DLLs to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'writable_eventlog_dll': {
+            r'section': "description",
+            r'preamble': "The DLL files below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC009': {
-       'title': "Insecure Permissions On Event Log Registry Key",
-       'description': '''Some registry keys that hold the names of DLLs used by Event Viewer and the location of Log Files are writable by non-administrative users.  It may be possible to maliciouly alter the registry to change the location of log files or run malicious code.''',
-       'recommendation': '''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'writable_eventlog_key': {
-             'section': "description",
-             'preamble': "The registry keys below could be changed by non-administrative users:",
+   r'WPC009': {
+      r'title': "Insecure Permissions On Event Log Registry Key",
+      r'description':r'''Some registry keys that hold the names of DLLs used by Event Viewer and the location of Log Files are writable by non-administrative users.  It may be possible to maliciouly alter the registry to change the location of log files or run malicious code.''',
+      r'recommendation':r'''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'writable_eventlog_key': {
+            r'section': "description",
+            r'preamble': "The registry keys below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC010': {
-       'title': "File Creation Allowed On Drive Root",
-       'description': '''Some of the local drive roots allow non-administrative users to create files.  This could allow malicious files to be placed in on the server in the hope that they'll allow a local user to escalate privileges (e.g. create program.exe which might get accidentally launched by another user).''',
-       'recommendation': '''Modify the permissions on the drive roots to only allow administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'dir_add_file': {
-             'section': "description",
-             'preamble': "The following drives allow non-administrative users to write to their root directory:",
+   r'WPC010': {
+      r'title': "File Creation Allowed On Drive Root",
+      r'description':r'''Some of the local drive roots allow non-administrative users to create files.  This could allow malicious files to be placed in on the server in the hope that they'll allow a local user to escalate privileges (e.g. create program.exe which might get accidentally launched by another user).''',
+      r'recommendation':r'''Modify the permissions on the drive roots to only allow administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'dir_add_file': {
+            r'section': "description",
+            r'preamble': "The following drives allow non-administrative users to write to their root directory:",
           },
        }
     },
-    'WPC011': {
-       'title': "Insecure (Non-NTFS) File System Used",
-       'description': '''Some local drives use Non-NTFS file systems.  These drive therefore don't allow secure file permissions to be used.  Any local user can change any data on these drives.''',
-       'recommendation': '''Use NTFS filesystems instead of FAT.  Ensure that strong file permissions are set - NTFS file permissions are insecure by default after FAT file systems are converted.''',
-       'supporting_data': {
-          'drive_and_fs_list': {
-             'section': "description",
-             'preamble': "The following drives use Non-NTFS file systems:",
+   r'WPC011': {
+      r'title': "Insecure (Non-NTFS) File System Used",
+      r'description':r'''Some local drives use Non-NTFS file systems.  These drive therefore don't allow secure file permissions to be used.  Any local user can change any data on these drives.''',
+      r'recommendation':r'''Use NTFS filesystems instead of FAT.  Ensure that strong file permissions are set - NTFS file permissions are insecure by default after FAT file systems are converted.''',
+      r'supporting_data': {
+         r'drive_and_fs_list': {
+            r'section': "description",
+            r'preamble': "The following drives use Non-NTFS file systems:",
           },
        }
     },
-    'WPC012': {
-       'title': "Insecure Permissions On Windows Services (OBSELETE)",
-       'description': '''Some of the Windows Services installed have weak permissions.  This could allow non-administrators to manipulate services to their own advantage.  The impact depends on the permissions granted, but can include starting services, stopping service or even reconfiguring them to run a different program.  This can lead to denial of service or even privilege escalation if the service is running as a user with more privilege than a malicious local user.''',
-       'recommendation': '''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'weak_service_perms': {
-             'section': "description",
-             'preamble': "Some Windows Services can be manipulated by non-administrator users:",
+   r'WPC012': {
+      r'title': "Insecure Permissions On Windows Services (OBSELETE)",
+      r'description':r'''Some of the Windows Services installed have weak permissions.  This could allow non-administrators to manipulate services to their own advantage.  The impact depends on the permissions granted, but can include starting services, stopping service or even reconfiguring them to run a different program.  This can lead to denial of service or even privilege escalation if the service is running as a user with more privilege than a malicious local user.''',
+      r'recommendation':r'''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'weak_service_perms': {
+            r'section': "description",
+            r'preamble': "Some Windows Services can be manipulated by non-administrator users:",
           },
        }
     },
-    'WPC013': {
-       'title': "Insecure Permissions On Files / Directories In System PATH",
-       'description': '''Some programs/directories in the system path have weak permissions.  TODO which user are affected by this issue?''',
-       'recommendation': '''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'writable_progs': {
-             'section': "description",
-             'preamble': "The following programs/DLLs in the system PATH can be manipulated by non-administrator users:",
+   r'WPC013': {
+      r'title': "Insecure Permissions On Files / Directories In System PATH",
+      r'description':r'''Some programs/directories in the system path have weak permissions.  TODO which user are affected by this issue?''',
+      r'recommendation':r'''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'writable_progs': {
+            r'section': "description",
+            r'preamble': "The following programs/DLLs in the system PATH can be manipulated by non-administrator users:",
           },
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The following directories in the system PATH can be manipulated by non-administrator users:",
-          },
-       }
-    },
-    'WPC014': {
-       'title': "Insecure Permissions On Files / Directories In Current User's PATH",
-       'description': '''Some programs/directories in the path of the user used to perform this audit have weak permissions.''',
-       'recommendation': '''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'writable_progs': {
-             'section': "description",
-             'preamble': "The following programs/DLLs in current user's PATH can be manipulated by non-administrator users:",
-          },
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The following directories in the current user's PATH can be manipulated by non-administrator users:",
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The following directories in the system PATH can be manipulated by non-administrator users:",
           },
        }
     },
-    'WPC015': {
-       'title': "Insecure Permissions On Files / Directories In Users' PATHs (TODO)",
-       'description': '''Some programs/directories in the paths of users on this system have weak permissions.''',
-       'recommendation': '''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'writable_progs': {
-             'section': "description",
-             'preamble': "The following programs/DLLs in users' PATHs can be manipulated by non-administrator users:",
+   r'WPC014': {
+      r'title': "Insecure Permissions On Files / Directories In Current User's PATH",
+      r'description':r'''Some programs/directories in the path of the user used to perform this audit have weak permissions.''',
+      r'recommendation':r'''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'writable_progs': {
+            r'section': "description",
+            r'preamble': "The following programs/DLLs in current user's PATH can be manipulated by non-administrator users:",
           },
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The following directories in users' PATHs can be manipulated by non-administrator users:",
-          },
-       }
-    },
-    'WPC016': {
-       'title': "Insecure Permissions On Running Programs (OBSELETED by WPC067)",
-       'description': '''Some programs running at the time of the audit have weak file permissions.  The corresponding programs could be altered by non-administrator users.''',
-       'recommendation': '''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'weak_perms_exes': {
-             'section': "description",
-             'preamble': "The following programs were running at the time of the audit, but could be changed on-disk by non-administrator users:",
-          },
-          'weak_perms_dlls': {
-             'section': "description",
-             'preamble': "The following DLLs are used by program which were running at the time of the audit.  These DLLs can be changed on-disk by non-administrator users:",
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The following directories in the current user's PATH can be manipulated by non-administrator users:",
           },
        }
     },
-    'WPC018': {
-       'title': "Service Can Be Started By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow them to be started by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to expose or exploit a vulnerability connected with the service - e.g. it may listen on the network or it may have been tampered with by an attacker and they now need to start the service.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The SERVICE_START permission has been granted to the following non-administrative users:",
+   r'WPC015': {
+      r'title': "Insecure Permissions On Files / Directories In Users' PATHs (TODO)",
+      r'description':r'''Some programs/directories in the paths of users on this system have weak permissions.''',
+      r'recommendation':r'''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'writable_progs': {
+            r'section': "description",
+            r'preamble': "The following programs/DLLs in users' PATHs can be manipulated by non-administrator users:",
+          },
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The following directories in users' PATHs can be manipulated by non-administrator users:",
           },
        }
     },
-    'WPC019': {
-       'title': "Service Can Be Stopped By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow them to be stopped by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to evade monitoring services - e.g. Anti-virus.  This permission can also be required in order to exploit other weaknesses such as weak file permissions on service executables.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The SERVICE_STOP permission has been granted to the following non-administrative users:",
+   r'WPC016': {
+      r'title': "Insecure Permissions On Running Programs (OBSELETED by WPC067)",
+      r'description':r'''Some programs running at the time of the audit have weak file permissions.  The corresponding programs could be altered by non-administrator users.''',
+      r'recommendation':r'''Review the permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'weak_perms_exes': {
+            r'section': "description",
+            r'preamble': "The following programs were running at the time of the audit, but could be changed on-disk by non-administrator users:",
+          },
+         r'weak_perms_dlls': {
+            r'section': "description",
+            r'preamble': "The following DLLs are used by program which were running at the time of the audit.  These DLLs can be changed on-disk by non-administrator users:",
           },
        }
     },
-    'WPC020': {
-       'title': "Service Can Be Paused/Resumed By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow them to be paused/resumed by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to allow users to evade monitoring - e.g. from Anti-virus services.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The SERVICE_PAUSE_CONTINUE permission has been granted to the following non-administrative users:",
+   r'WPC018': {
+      r'title': "Service Can Be Started By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow them to be started by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to expose or exploit a vulnerability connected with the service - e.g. it may listen on the network or it may have been tampered with by an attacker and they now need to start the service.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The SERVICE_START permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC021': {
-       'title': "Service Can Be Reconfigured By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow them to be reconfigured by non-administrative users.  This should not normally be required and is inherently insecure.  It could certain users alter the program which is run when this service start and to alter which user the service runs as.  The most likely attack would be to reconfigure the service to run as LocalSystem with no password and to select a malicious executable.  This would give the attacker administrator level access to the local system.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The SERVICE_CHANGE_CONFIG permission has been granted to the following non-administrative users:",
+   r'WPC019': {
+      r'title': "Service Can Be Stopped By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow them to be stopped by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to evade monitoring services - e.g. Anti-virus.  This permission can also be required in order to exploit other weaknesses such as weak file permissions on service executables.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The SERVICE_STOP permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC022': {
-       'title': "Service Can Be Deleted By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow them to be deleted by non-administrative users.  This should not normally be required and is inherently insecure.  It could allow local users to delete the service.  This may allow them to evade monitor - e.g. from Anti-virus - or to disrupt normal business operations.  Note that the user would not be able to replace the service as administrator level rights are required to create new services.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The DELETE permission has been granted to the following non-administrative users:",
+   r'WPC020': {
+      r'title': "Service Can Be Paused/Resumed By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow them to be paused/resumed by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow users to allow users to evade monitoring - e.g. from Anti-virus services.  The permission is not always dangerous on its own, but can sometimes aid a local attacker.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The SERVICE_PAUSE_CONTINUE permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC023': {
-       'title': "Service Permissions Can Be Altered By Non-Admin Users",
-       'description': '''The service-level permissions on some Windows services allow some non-administrative users to set any service-level permissions of their choosing.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user DELETE and SERVICE_CHANGE_CONFIG.  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The WRITE_DAC permission has been granted to the following non-administrative users:",
+   r'WPC021': {
+      r'title': "Service Can Be Reconfigured By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow them to be reconfigured by non-administrative users.  This should not normally be required and is inherently insecure.  It could certain users alter the program which is run when this service start and to alter which user the service runs as.  The most likely attack would be to reconfigure the service to run as LocalSystem with no password and to select a malicious executable.  This would give the attacker administrator level access to the local system.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The SERVICE_CHANGE_CONFIG permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC024': {
-       'title': "Non-Admin Users Can Take Ownership of Service",
-       'description': '''The service-level permissions on some Windows services allow ownership to be claimed by some non-administrative users.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user WRITE_DAC (and thus DELETE and SERVICE_CHANGE_CONFIG).  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_perm': {
-             'section': "description",
-             'preamble': "The WRITE_OWNER permission has been granted to the following non-administrative users:",
+   r'WPC022': {
+      r'title': "Service Can Be Deleted By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow them to be deleted by non-administrative users.  This should not normally be required and is inherently insecure.  It could allow local users to delete the service.  This may allow them to evade monitor - e.g. from Anti-virus - or to disrupt normal business operations.  Note that the user would not be able to replace the service as administrator level rights are required to create new services.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The DELETE permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC025': {
-       'title': "Services Owned By Non-Admin Users",
-       'description': '''The owner in the security descriptor for some services is set to a non-administrative user.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user WRITE_DAC (and thus DELETE and SERVICE_CHANGE_CONFIG).  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
-       'recommendation': '''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
-       'supporting_data': {
-          'principals_with_service_ownership': {
-             'section': "description",
-             'preamble': "The following services are owned by non-administrative users:",
+   r'WPC023': {
+      r'title': "Service Permissions Can Be Altered By Non-Admin Users",
+      r'description':r'''The service-level permissions on some Windows services allow some non-administrative users to set any service-level permissions of their choosing.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user DELETE and SERVICE_CHANGE_CONFIG.  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The WRITE_DAC permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC026': {
-       'title': "Delete Permission Granted On Windows Service Executables",
-       'description': '''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to delete some of the Windows Service executables with malicious programs.  This could lead to disruption or denial of service.''',
-       'recommendation': '''Modify the permissions on the above programs to allow only administrators delete permission.  Revoke delete permission from low-privileged users.''',
-       'supporting_data': {
-          'service_exe_write_perms': {
-             'section': "description",
-             'preamble': "The programs below have DELETE permission granted to non-administrative users:",
+   r'WPC024': {
+      r'title': "Non-Admin Users Can Take Ownership of Service",
+      r'description':r'''The service-level permissions on some Windows services allow ownership to be claimed by some non-administrative users.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user WRITE_DAC (and thus DELETE and SERVICE_CHANGE_CONFIG).  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_perm': {
+            r'section': "description",
+            r'preamble': "The WRITE_OWNER permission has been granted to the following non-administrative users:",
           },
        }
     },
-    'WPC027': {
-       'title': "Append Permission Granted Windows Service Executables",
-       'description': '''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to append to some of the Windows Service executables with malicious programs.  This is unlikely to be exploitable for .exe files, but is it bad security practise to allow more access than necessary to low-privileged users.''',
-       'recommendation': '''Modify the permissions on the above programs to allow only administrators delete permission.  Revoke delete permission from low-privileged users.''',
-       'supporting_data': {
-          'service_exe_write_perms': {
-             'section': "description",
-             'preamble': "The programs below have FILE_APPEND permission granted to non-administrative users:",
+   r'WPC025': {
+      r'title': "Services Owned By Non-Admin Users",
+      r'description':r'''The owner in the security descriptor for some services is set to a non-administrative user.  This should not normally be required and is inherently insecure.  It has a similar effect to granting the user WRITE_DAC (and thus DELETE and SERVICE_CHANGE_CONFIG).  These powerful rights could allow the user to reconfigure a service to provide them with administrator level access, or simply to delete the service, disrupting normal business operations.''',
+      r'recommendation':r'''Review the service-level permissions that have been granted to non-administrative users and revoke access where possible.''',
+      r'supporting_data': {
+         r'principals_with_service_ownership': {
+            r'section': "description",
+            r'preamble': "The following services are owned by non-administrative users:",
           },
        }
     },
-    'WPC028': {
-       'title': "Untrusted Users Can Modify Windows Service Executables",
-       'description': '''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to replace some of the Windows Service executables with malicious programs.  This could be abused to execute programs with the privileges of the Windows services concerned.''',
-       'recommendation': '''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
-       'supporting_data': {
-          'service_exe_write_perms': {
-             'section': "description",
-             'preamble': "The programs below have FILE_WRITE, WRITE_DAC or WRITE_OWNER permission granted to non-administrative users:",
+   r'WPC026': {
+      r'title': "Delete Permission Granted On Windows Service Executables",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to delete some of the Windows Service executables with malicious programs.  This could lead to disruption or denial of service.''',
+      r'recommendation':r'''Modify the permissions on the above programs to allow only administrators delete permission.  Revoke delete permission from low-privileged users.''',
+      r'supporting_data': {
+         r'service_exe_write_perms': {
+            r'section': "description",
+            r'preamble': "The programs below have DELETE permission granted to non-administrative users:",
           },
        }
     },
-    'WPC029': {
-       'title': "Windows Service Executables Owned By Untrusted Users",
-       'description': '''Some of the programs that are run when Windows Services start were found to be owned by untrusted users.  Consequently, these programs can be replace with malicious programs by low-privileged users.  This could result is users stealing the privileges of the services affected.''',
-       'recommendation': '''Change the ownership of the affected programs.  They should be owned by administrators.''',
-       'supporting_data': {
-          'service_exe_owner': {
-             'section': "description",
-             'preamble': "The programs below were owned by non-administrative users:",
+   r'WPC027': {
+      r'title': "Append Permission Granted Windows Service Executables",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to append to some of the Windows Service executables with malicious programs.  This is unlikely to be exploitable for .exe files, but is it bad security practise to allow more access than necessary to low-privileged users.''',
+      r'recommendation':r'''Modify the permissions on the above programs to allow only administrators delete permission.  Revoke delete permission from low-privileged users.''',
+      r'supporting_data': {
+         r'service_exe_write_perms': {
+            r'section': "description",
+            r'preamble': "The programs below have FILE_APPEND permission granted to non-administrative users:",
           },
        }
     },
-    'WPC030': {
-       'title': "Parent Directories of Windows Service Executables Allow Untrusted Users FILE_DELETE_CHILD and FILE_ADD_SUBDIR Permissions",
-       'description': '''Some of the programs that are run when Windows Services start were found to have parent directories that had both FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions granted to untrusted users.  This combination of directory permissions allows entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
-       'recommendation': '''Change the directory permissions granted to low-privileged users.  They should never be granted FILE_DELETE_CHILD permission to the parent directory of a program.  FILE_ADD_SUBDIR should be used sparingly.''',
-       'supporting_data': {
-          'service_exe_parent_dir_perms': {
-             'section': "description",
-             'preamble': "The programs had parent directories which granted non-administrative users FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions:",
+   r'WPC028': {
+      r'title': "Untrusted Users Can Modify Windows Service Executables",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have weak file permissions.  It is possible for non-administrative local users to replace some of the Windows Service executables with malicious programs.  This could be abused to execute programs with the privileges of the Windows services concerned.''',
+      r'recommendation':r'''Modify the permissions on the above programs to allow only administrators write access.  Revoke write access from low-privileged users.''',
+      r'supporting_data': {
+         r'service_exe_write_perms': {
+            r'section': "description",
+            r'preamble': "The programs below have FILE_WRITE, WRITE_DAC or WRITE_OWNER permission granted to non-administrative users:",
           },
        }
     },
-    'WPC031': {
-       'title': "Parent Directories of Windows Service Executables Allow Untrusted Users DELETE Permissions And Can Be Replaced Because of FILE_ADD_SUBDIR Permission",
-       'description': '''Some of the programs that are run when Windows Services start were found to have parent directories that had DELETE permission granted to untrusted users. Further the parent directories of the directories affected had FILE_ADD_SUBDIR granted for low-privileged users.  This combination of directory permissions allows entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
-       'recommendation': '''Change the directory permissions granted to low-privileged users.  They should never be granted DELETE permission to the parent directory of a program.  FILE_ADD_SUBDIR should be used sparingly.''',
-       'supporting_data': {
-          'service_exe_parent_grandparent_write_perms': {
-             'section': "description",
-             'preamble': "The programs below were owned by non-administrative users:",
+   r'WPC029': {
+      r'title': "Windows Service Executables Owned By Untrusted Users",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to be owned by untrusted users.  Consequently, these programs can be replace with malicious programs by low-privileged users.  This could result is users stealing the privileges of the services affected.''',
+      r'recommendation':r'''Change the ownership of the affected programs.  They should be owned by administrators.''',
+      r'supporting_data': {
+         r'service_exe_owner': {
+            r'section': "description",
+            r'preamble': "The programs below were owned by non-administrative users:",
           },
        }
     },
-    'WPC032': {
-       'title': "Parent Directories of Windows Service Executables Can Have File Permissions Altered By Untrusted Users",
-       'description': '''Some of the programs that are run when Windows Services start were found to have parent directories that had the permissions WRITE_OWNER or WRITE_DAC granted to untrusted users.  Consequently, low-privileged users could grant themselves any privilege they desired on these directories.  This could result in entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
-       'recommendation': '''Change the directory permissions granted to low-privileged users.  Service executables should never have WRITE_OWNER or WRITE_DAC granted to low privileged users.''',
-       'supporting_data': {
-          'service_exe_parent_dir_perms': {
-             'section': "description",
-             'preamble': "The directories below had the permissions WRITE_OWNER or WRITE_DAC granted to non-administrative users:",
+   r'WPC030': {
+      r'title': "Parent Directories of Windows Service Executables Allow Untrusted Users FILE_DELETE_CHILD and FILE_ADD_SUBDIR Permissions",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have parent directories that had both FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions granted to untrusted users.  This combination of directory permissions allows entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
+      r'recommendation':r'''Change the directory permissions granted to low-privileged users.  They should never be granted FILE_DELETE_CHILD permission to the parent directory of a program.  FILE_ADD_SUBDIR should be used sparingly.''',
+      r'supporting_data': {
+         r'service_exe_parent_dir_perms': {
+            r'section': "description",
+            r'preamble': "The programs had parent directories which granted non-administrative users FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions:",
           },
        }
     },
-    'WPC033': {
-       'title': "Parent Directories of Windows Service Executables Owned By Untrusted Users",
-       'description': '''Some of the programs that are run when Windows Services start were found to have parent directories that were owned by untrusted users.  Consequently, entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  This could result is users stealing the privileges of the services affected.''',
-       'recommendation': '''Change the ownership of the affected directories.  They should be owned by administrators.''',
-       'supporting_data': {
-          'service_exe_parent_dir_untrusted_ownership': {
-             'section': "description",
-             'preamble': "The directories below were owned by non-administrative users:",
+   r'WPC031': {
+      r'title': "Parent Directories of Windows Service Executables Allow Untrusted Users DELETE Permissions And Can Be Replaced Because of FILE_ADD_SUBDIR Permission",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have parent directories that had DELETE permission granted to untrusted users. Further the parent directories of the directories affected had FILE_ADD_SUBDIR granted for low-privileged users.  This combination of directory permissions allows entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
+      r'recommendation':r'''Change the directory permissions granted to low-privileged users.  They should never be granted DELETE permission to the parent directory of a program.  FILE_ADD_SUBDIR should be used sparingly.''',
+      r'supporting_data': {
+         r'service_exe_parent_grandparent_write_perms': {
+            r'section': "description",
+            r'preamble': "The programs below were owned by non-administrative users:",
           },
        }
     },
-    'WPC034': {
-       'title': "Windows Service Executables Allow DELETE Permissions To Untrusted Users And Can Be Replaced Because of FILE_ADD_FILE Permission On Parent Directory",
-       'description': '''Some of the programs that are run when Windows Services start were found to have DELETE permission granted to low-privileged users.  Furthermore, the parent directory allowed FILE_ADD_FILE permission to low-privileged users.  This combination of directory permissions allows the service executable to be deleted and replaced malicoius program.  In this way low-privileged users could steal the privileges of the services affected.''',
-       'recommendation': '''Change the file and directory permissions granted to low-privileged users.  They should never be granted DELETE permission on a service executable.  The use of FILE_ADD_FILE on parent directories should also be avoided.''',
-       'supporting_data': {
-          'service_exe_file_parent_write_perms': {
-             'section': "description",
-             'preamble': "The programs had parent directories which granted non-administrative users FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions:",
+   r'WPC032': {
+      r'title': "Parent Directories of Windows Service Executables Can Have File Permissions Altered By Untrusted Users",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have parent directories that had the permissions WRITE_OWNER or WRITE_DAC granted to untrusted users.  Consequently, low-privileged users could grant themselves any privilege they desired on these directories.  This could result in entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  In this way low-privileged users could steal the privileges of the services affected.''',
+      r'recommendation':r'''Change the directory permissions granted to low-privileged users.  Service executables should never have WRITE_OWNER or WRITE_DAC granted to low privileged users.''',
+      r'supporting_data': {
+         r'service_exe_parent_dir_perms': {
+            r'section': "description",
+            r'preamble': "The directories below had the permissions WRITE_OWNER or WRITE_DAC granted to non-administrative users:",
           },
        }
     },
-    'WPC035': {
-       'title': "Windows Service Registry Keys Are Owned By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to be owned by non-administrative users.  It would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
-       'recommendation': '''Change the ownership of registry keys pertaining to Windows Servies.  Keys should only be owned by administors only.''',
-       'supporting_data': {
-          'service_exe_regkey_untrusted_ownership': {
-             'section': "description",
-             'preamble': "The registry keys below were owned by non-administrative users:",
+   r'WPC033': {
+      r'title': "Parent Directories of Windows Service Executables Owned By Untrusted Users",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have parent directories that were owned by untrusted users.  Consequently, entire portions of the parent directory structure can be deleted and replaced, allowing the service executable to be susbstituted with a malicoius one.  This could result is users stealing the privileges of the services affected.''',
+      r'recommendation':r'''Change the ownership of the affected directories.  They should be owned by administrators.''',
+      r'supporting_data': {
+         r'service_exe_parent_dir_untrusted_ownership': {
+            r'section': "description",
+            r'preamble': "The directories below were owned by non-administrative users:",
           },
        }
     },
-    'WPC036': {
-       'title': "Permissions on Windows Service Registry Keys Can be Changed By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have WRITE_DAC or WRITE_OWNER permissions granted for non-administrative users.  After modifying the permission as desired, it would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
-       'recommendation': '''Change the permissions of registry keys pertaining to Windows Servies.  Keys should never allow WRITE_DAC or WRITE_OWNER for low-privileged users.''',
-       'supporting_data': {
-          'service_reg_perms': {
-             'section': "description",
-             'preamble': "The registry keys below had WRITE_DAC or WRITE_OWNER granted for non-administrative users:",
+   r'WPC034': {
+      r'title': "Windows Service Executables Allow DELETE Permissions To Untrusted Users And Can Be Replaced Because of FILE_ADD_FILE Permission On Parent Directory",
+      r'description':r'''Some of the programs that are run when Windows Services start were found to have DELETE permission granted to low-privileged users.  Furthermore, the parent directory allowed FILE_ADD_FILE permission to low-privileged users.  This combination of directory permissions allows the service executable to be deleted and replaced malicoius program.  In this way low-privileged users could steal the privileges of the services affected.''',
+      r'recommendation':r'''Change the file and directory permissions granted to low-privileged users.  They should never be granted DELETE permission on a service executable.  The use of FILE_ADD_FILE on parent directories should also be avoided.''',
+      r'supporting_data': {
+         r'service_exe_file_parent_write_perms': {
+            r'section': "description",
+            r'preamble': "The programs had parent directories which granted non-administrative users FILE_DELETE_CHILD and FILE_ADD_SUBDIR permissions:",
           },
        }
     },
-    'WPC037': {
-       'title': "Windows Service Registry Values Can be Changed By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_SET_VALUE permission granted for non-administrative users.  It would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
-       'recommendation': '''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow KEY_SET_VALUE for low-privileged users.''',
-       'supporting_data': {
-          'service_reg_perms': {
-             'section': "description",
-             'preamble': "The registry keys below had KEY_SET_VALUE granted for non-administrative users:",
+   r'WPC035': {
+      r'title': "Windows Service Registry Keys Are Owned By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to be owned by non-administrative users.  It would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
+      r'recommendation':r'''Change the ownership of registry keys pertaining to Windows Servies.  Keys should only be owned by administors only.''',
+      r'supporting_data': {
+         r'service_exe_regkey_untrusted_ownership': {
+            r'section': "description",
+            r'preamble': "The registry keys below were owned by non-administrative users:",
           },
        }
     },
-    'WPC038': {
-       'title': "Windows Service Registry Keys Allow KEY_CREATE_LINK",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_CREATE_LINK permission granted for non-administrative users.  This allows low-privileged users to create Registry Symbolic Links.  While this feature appears to be poorly documented by Microsoft, there is sample code freely available on the Internet.  The impact of this issue is similar to that for the KEY_CREATE_SUB_KEY issue: It may be possible for low privileged users to manipulate services - though this would depend on how the service responded to the addition of new registry keys.''',
-       'recommendation': '''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow KEY_CREATE_LINK for low-privileged users.''',
-       'supporting_data': {
-          'service_reg_perms': {
-             'section': "description",
-             'preamble': "The registry keys below had KEY_CREATE_LINK granted for non-administrative users:",
+   r'WPC036': {
+      r'title': "Permissions on Windows Service Registry Keys Can be Changed By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have WRITE_DAC or WRITE_OWNER permissions granted for non-administrative users.  After modifying the permission as desired, it would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
+      r'recommendation':r'''Change the permissions of registry keys pertaining to Windows Servies.  Keys should never allow WRITE_DAC or WRITE_OWNER for low-privileged users.''',
+      r'supporting_data': {
+         r'service_reg_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below had WRITE_DAC or WRITE_OWNER granted for non-administrative users:",
           },
        }
     },
-    'WPC039': {
-       'title': "Windows Service Registry Keys Allow Untrusted Users To Create Subkeys",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_CREATE_SUB_KEY permission granted for non-administrative users.  It may be possible for low privileged users to manipulate service - though this would depend on how the service responded to the addition of new registry keys.''',
-       'recommendation': '''Review the permissions of keys with KEY_CREATE_SUB_KEY granged.  Revoke KEY_CREATE_SUB_KEY permissions for non-administrative users where possible.''',
-       'supporting_data': {
-          'service_reg_perms': {
-             'section': "description",
-             'preamble': "The registry keys below had KEY_CREATE_SUB_KEY granted for non-administrative users:",
+   r'WPC037': {
+      r'title': "Windows Service Registry Values Can be Changed By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_SET_VALUE permission granted for non-administrative users.  It would be possible for these users to maliciously modify the registry to change the executable run to a malicious one, or to make the service run with higher privileges.  It could lead to a low-privileged user escalating privilges to local administrator.''',
+      r'recommendation':r'''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow KEY_SET_VALUE for low-privileged users.''',
+      r'supporting_data': {
+         r'service_reg_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below had KEY_SET_VALUE granted for non-administrative users:",
           },
        }
     },
-    'WPC040': {
-       'title': "Windows Service Registry Keys Allow Untrusted Users To Delete Them",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the DELETE permission granted for non-administrative users.  Low privileged users could delete the service configuration information, disrupting normal business operations.''',
-       'recommendation': '''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow DELETE for low-privileged users.''',
-       'supporting_data': {
-          'service_reg_perms': {
-             'section': "description",
-             'preamble': "The registry keys below had DELETE granted for non-administrative users:",
+   r'WPC038': {
+      r'title': "Windows Service Registry Keys Allow KEY_CREATE_LINK",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_CREATE_LINK permission granted for non-administrative users.  This allows low-privileged users to create Registry Symbolic Links.  While this feature appears to be poorly documented by Microsoft, there is sample code freely available on the Internet.  The impact of this issue is similar to that for the KEY_CREATE_SUB_KEY issue: It may be possible for low privileged users to manipulate services - though this would depend on how the service responded to the addition of new registry keys.''',
+      r'recommendation':r'''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow KEY_CREATE_LINK for low-privileged users.''',
+      r'supporting_data': {
+         r'service_reg_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below had KEY_CREATE_LINK granted for non-administrative users:",
           },
        }
     },
-    'WPC041': {
-       'title': "Windows Service Registry Keys Have Parent Keys Owned By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  Some of the parent keys were found to be owned by non-administrative users.  This could allow low-privileged users to alter the permissions on the keys concerned, delete them, add subkeys and add/alter registry values for that key.  This probably constitutes a denial of service risk, but may also allow privilege escalation depending on how the service responds to registry keys being tampered with.''',
-       'recommendation': '''Change the ownership of registry keys pertaining to Windows Servies.  Service registry keys should be owned by the administrators group.''',
-       'supporting_data': {
-          'service_regkey_parent_untrusted_ownership': {
-             'section': "description",
-             'preamble': "The registry keys below were owned by non-administrative users:",
+   r'WPC039': {
+      r'title': "Windows Service Registry Keys Allow Untrusted Users To Create Subkeys",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the KEY_CREATE_SUB_KEY permission granted for non-administrative users.  It may be possible for low privileged users to manipulate service - though this would depend on how the service responded to the addition of new registry keys.''',
+      r'recommendation':r'''Review the permissions of keys with KEY_CREATE_SUB_KEY granged.  Revoke KEY_CREATE_SUB_KEY permissions for non-administrative users where possible.''',
+      r'supporting_data': {
+         r'service_reg_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below had KEY_CREATE_SUB_KEY granted for non-administrative users:",
           },
        }
     },
-    'WPC042': {
-       'title': "Permissions on Windows Service Registry Keys Can Be Changed By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  TODO.''',
-       'recommendation': '''TODO.''',
-       'supporting_data': {
-          'service_regkey_parent_perms': {
-             'section': "description",
-             'preamble': "The registry keys below were owned by non-administrative users:",
+   r'WPC040': {
+      r'title': "Windows Service Registry Keys Allow Untrusted Users To Delete Them",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the keys were found to have the DELETE permission granted for non-administrative users.  Low privileged users could delete the service configuration information, disrupting normal business operations.''',
+      r'recommendation':r'''Change the permissions of registry keys pertaining to Windows Servies.  Service registry keys should never allow DELETE for low-privileged users.''',
+      r'supporting_data': {
+         r'service_reg_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below had DELETE granted for non-administrative users:",
           },
        }
     },
-    'WPC043': {
-       'title': "Windows Service Registry Keys Can Be Deleted And Replaced By Untrusted Users",
-       'description': '''Configuration information for Windows Service is stored in the registry.  TODO.''',
-       'recommendation': '''TODO.''',
-       'supporting_data': {
-          'service_regkey_parent_grandparent_write_perms': {
-             'section': "description",
-             'preamble': "The registry keys below were owned by non-administrative users:",
+   r'WPC041': {
+      r'title': "Windows Service Registry Keys Have Parent Keys Owned By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  Some of the parent keys were found to be owned by non-administrative users.  This could allow low-privileged users to alter the permissions on the keys concerned, delete them, add subkeys and add/alter registry values for that key.  This probably constitutes a denial of service risk, but may also allow privilege escalation depending on how the service responds to registry keys being tampered with.''',
+      r'recommendation':r'''Change the ownership of registry keys pertaining to Windows Servies.  Service registry keys should be owned by the administrators group.''',
+      r'supporting_data': {
+         r'service_regkey_parent_untrusted_ownership': {
+            r'section': "description",
+            r'preamble': "The registry keys below were owned by non-administrative users:",
           },
        }
     },
-    'WPC046': {
-       'title': "Windows Registry Keys Containing Program Owned By Untrusted Users",
-       'description': '''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'regkey_untrusted_ownership': {
-             'section': "description",
-             'preamble': "The registry keys below can be changed by non-administrative users:",
+   r'WPC042': {
+      r'title': "Permissions on Windows Service Registry Keys Can Be Changed By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  TODO.''',
+      r'recommendation':r'''TODO.''',
+      r'supporting_data': {
+         r'service_regkey_parent_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below were owned by non-administrative users:",
           },
        }
     },
-    'WPC047': {
-       'title': "Windows Registry Keys Containing Programs Can Have Permissions Changed By Untrusted Users",
-       'description': '''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'regkey_perms': {
-             'section': "description",
-             'preamble': "The registry keys below can be changed by non-administrative users:",
+   r'WPC043': {
+      r'title': "Windows Service Registry Keys Can Be Deleted And Replaced By Untrusted Users",
+      r'description':r'''Configuration information for Windows Service is stored in the registry.  TODO.''',
+      r'recommendation':r'''TODO.''',
+      r'supporting_data': {
+         r'service_regkey_parent_grandparent_write_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below were owned by non-administrative users:",
           },
        }
     },
-    'WPC048': {
-       'title': "Windows Registry Keys Containing Program Names Can Be Changed By Untrusted Users",
-       'description': '''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  It would be possible for an attacker to substitute the name of malicious program which then stole the privileges of other accounts.''',
-       'recommendation': '''The keys below should only have write access for administrators.''',
-       'supporting_data': {
-          'regkey_perms': {
-             'section': "description",
-             'preamble': "The registry keys below can be changed by non-administrative users:",
+   r'WPC046': {
+      r'title': "Windows Registry Keys Containing Program Owned By Untrusted Users",
+      r'description':r'''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'regkey_untrusted_ownership': {
+            r'section': "description",
+            r'preamble': "The registry keys below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC049': {
-       'title': "Windows Registry Keys Containing Programs Can Have Subkey Added By Untrusted Users",
-       'description': '''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'regkey_perms': {
-             'section': "description",
-             'preamble': "The registry keys below can be changed by non-administrative users:",
+   r'WPC047': {
+      r'title': "Windows Registry Keys Containing Programs Can Have Permissions Changed By Untrusted Users",
+      r'description':r'''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'regkey_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC050': {
-       'title': "Windows Registry Keys Containing Programs Can Be Deleted",
-       'description': '''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'regkey_perms': {
-             'section': "description",
-             'preamble': "The registry keys below can be changed by non-administrative users:",
+   r'WPC048': {
+      r'title': "Windows Registry Keys Containing Program Names Can Be Changed By Untrusted Users",
+      r'description':r'''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  It would be possible for an attacker to substitute the name of malicious program which then stole the privileges of other accounts.''',
+      r'recommendation':r'''The keys below should only have write access for administrators.''',
+      r'supporting_data': {
+         r'regkey_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC051': {
-       'title': "Windows Service Has Insecurely Quoted Path",
-       'description': '''The path to the executable for the service contains one or more spaces and quotes have not been correctly used around the path.  The path is therefore ambiguous which could result in the wrong program being executed when the service is started - e.g. "C:\\program.exe" instead of "C:\\program files\\foo\\bar.exe".  The issue is not necessarily exploitable unless a local attacker has permissions to add an alternative executable to the correct location on the filesystem.  The impact of the issue should be considered higher for services that run with high privileges.''',
-       'recommendation': '''Use quotes around the path to executables if they contain spaces: C:\\program files\\foo\\bar.exe -> "C:\\program files\\foo\\bar.exe".''',
-       'supporting_data': {
-          'service_info': {
-             'section': "description",
-             'preamble': "The following services have insecurely quoted paths:",
+   r'WPC049': {
+      r'title': "Windows Registry Keys Containing Programs Can Have Subkey Added By Untrusted Users",
+      r'description':r'''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'regkey_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC052': {
-       'title': "Windows Service DLL Can Be Replaced",
-       'description': '''Each windows service has a corresponding registry key in HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services.  Some services have a "Parameters" subkey and a value called "ServiceDll" (e.g. HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\someservice\\Parameters\\ServiceDll = c:\\dir\\foo.dll").  The DLL for some of the services on the system audited can be replaced by non-administrative users.  TODO how and by whom?  Users able to replace the service DLL could run code of their choosing with the privileges of the service.''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'service_dll': {
-             'section': "description",
-             'preamble': "The following services have weak file permissions on the service DLLs:",
+   r'WPC050': {
+      r'title': "Windows Registry Keys Containing Programs Can Be Deleted",
+      r'description':r'''Some of the registry keys holding the names of programs run by other users could be changed by non-administrative users.  TODO''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'regkey_perms': {
+            r'section': "description",
+            r'preamble': "The registry keys below can be changed by non-administrative users:",
           },
        }
     },
-    'WPC053': {
-       'title': "Context Handler Menus Use Poorly Protected Files",
-       'description': '''Context Menus appear in Windows Explorer when files are right-clicked.  Each has a corresponding DLL or .EXE.  Some of the referenced DLLs or .EXE file can be replaced by non-administrative users.  As these context menus are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
+   r'WPC051': {
+      r'title': "Windows Service Has Insecurely Quoted Path",
+      r'description':r'''The path to the executable for the service contains one or more spaces and quotes have not been correctly used around the path.  The path is therefore ambiguous which could result in the wrong program being executed when the service is started - e.g. "C:\\program.exe" instead of "C:\\program files\\foo\\bar.exe".  The issue is not necessarily exploitable unless a local attacker has permissions to add an alternative executable to the correct location on the filesystem.  The impact of the issue should be considered higher for services that run with high privileges.''',
+      r'recommendation':r'''Use quotes around the path to executables if they contain spaces: C:\\program files\\foo\\bar.exe -> "C:\\program files\\foo\\bar.exe".''',
+      r'supporting_data': {
+         r'service_info': {
+            r'section': "description",
+            r'preamble': "The following services have insecurely quoted paths:",
+          },
+       }
+    },
+   r'WPC052': {
+      r'title': "Windows Service DLL Can Be Replaced",
+      r'description':r'''Each windows service has a corresponding registry key in HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services.  Some services have a "Parameters" subkey and a value called "ServiceDll" (e.g. HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\someservice\\Parameters\\ServiceDll = c:\\dir\\foo.dll").  The DLL for some of the services on the system audited can be replaced by non-administrative users.  TODO how and by whom?  Users able to replace the service DLL could run code of their choosing with the privileges of the service.''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'service_dll': {
+            r'section': "description",
+            r'preamble': "The following services have weak file permissions on the service DLLs:",
+          },
+       }
+    },
+   r'WPC053': {
+      r'title': "Context Handler Menus Use Poorly Protected Files",
+      r'description':r'''Context Menus appear in Windows Explorer when files are right-clicked.  Each has a corresponding DLL or .EXE.  Some of the referenced DLLs or .EXE file can be replaced by non-administrative users.  As these context menus are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
 
 Context Menu Handlers are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144171(v=vs.85).aspx
 
-Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx       ''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'regkey_ref_replacable_file': {
-             'section': "description",
-             'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
+Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx      r''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_replacable_file': {
+            r'section': "description",
+            r'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
           },
        }
     },
-    'WPC054': {
-       'title': "Property Sheet Handlers Use Poorly Protected Files",
-       'description': '''"Property Sheets" appear in Windows Explorer when files are right-clicked and the "Properties" context menu selected.  The DLLs or .EXEs used to generate these property sheets can be replaced by non-administrative users.  As these property sheets are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?  
+   r'WPC054': {
+      r'title': "Property Sheet Handlers Use Poorly Protected Files",
+      r'description':r'''"Property Sheets" appear in Windows Explorer when files are right-clicked and the "Properties" context menu selected.  The DLLs or .EXEs used to generate these property sheets can be replaced by non-administrative users.  As these property sheets are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?  
 
 Property Sheet Handlers are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144106(v=vs.85).aspx
 
-Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx       ''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'regkey_ref_replacable_file': {
-             'section': "description",
-             'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
+Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx      r''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_replacable_file': {
+            r'section': "description",
+            r'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
           },
        }
     },
-    'WPC055': {
-       'title': "Copy Hook Handlers Use Poorly Protected Files",
-       'description': '''"Copy Hook Handlers" are a type of Windows Explorer shell extension that can control the copying, moving, deleting and renaming of files and folder.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As Copy Hooks are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
+   r'WPC055': {
+      r'title': "Copy Hook Handlers Use Poorly Protected Files",
+      r'description':r'''"Copy Hook Handlers" are a type of Windows Explorer shell extension that can control the copying, moving, deleting and renaming of files and folder.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As Copy Hooks are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
 
 Copy Hook Handlers are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144063(v=vs.85).aspx
 
-Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx       ''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'regkey_ref_replacable_file': {
-             'section': "description",
-             'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
+Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx      r''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_replacable_file': {
+            r'section': "description",
+            r'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
           },
        }
     },
-    'WPC056': {
-       'title': "DragDrop Handlers Use Poorly Protected Files",
-       'description': '''"DragDrop Handlers" are a type of Windows Explorer shell extension that determine behaviour when files or folders are dragged and dropped.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As DragDrop Handlers are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
+   r'WPC056': {
+      r'title': "DragDrop Handlers Use Poorly Protected Files",
+      r'description':r'''"DragDrop Handlers" are a type of Windows Explorer shell extension that determine behaviour when files or folders are dragged and dropped.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As DragDrop Handlers are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
 
 DragDrop Handlers are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144171(v=vs.85).aspx
 
-Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx       ''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'regkey_ref_replacable_file': {
-             'section': "description",
-             'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
+Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx      r''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_replacable_file': {
+            r'section': "description",
+            r'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
           },
        }
     },
-    'WPC057': {
-       'title': "Column Handlers Use Poorly Protected Files",
-       'description': '''"Column Handlers" are a type of Windows Explorer shell extension that determine behaviour the users tries to add or remove columns from the display.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As Column Handlers are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
+   r'WPC057': {
+      r'title': "Column Handlers Use Poorly Protected Files",
+      r'description':r'''"Column Handlers" are a type of Windows Explorer shell extension that determine behaviour the users tries to add or remove columns from the display.  Each as a corresponding DLL or .EXE.  Some of DLLs or .EXEs used can be replaced by non-administrative users.  As Column Handlers are used by all system users, there is a possibility that a user might run malicious code of an attacker's choosing if the DLLs or .EXEs are modified.  TODO how can the files be modified?
 
 Column Handlers are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/bb776831(v=vs.85).aspx
 
-Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx       ''',
-       'recommendation': '''Set strong file permissions on the service DLLs and their partent directories.''',
-       'supporting_data': {
-          'regkey_ref_replacable_file': {
-             'section': "description",
-             'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
+Shell Extenstion Handlers more generally are described here: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067(v=vs.85).aspx      r''',
+      r'recommendation':r'''Set strong file permissions on the service DLLs and their partent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_replacable_file': {
+            r'section': "description",
+            r'preamble': "The following shell extension use DLLs or .EXE files with weak file permissions:",
           },
        }
     },
@@ -2555,768 +2556,768 @@ Shell Extenstion Handlers more generally are described here: http://msdn.microso
     # Search Handlers http://msdn.microsoft.com/en-us/library/windows/desktop/bb776834(v=vs.85).aspx
 
     # TODO add RunOnceEx keys to this issue + HKCU\run, runonce, runonceex
-    'WPC058': {
-       'title': "Registry \"Run\" Keys Reference Programs With Weak Permissions",
-       'description': '''The Run and RunOnce keys under HKLM reference programs that are run when a user logs in with the privielges of that user.  Some of the programs referenced by the registry keys can be modified by non-administrative user.  This could allow a malcious user to run code of their choosing under the context of other user accounts.  Run and RunOnce are described here: http://msdn.microsoft.com/en-us/library/aa376977(v=vs.85).aspx''',
-       'recommendation': '''Set strong file permissions on the executables their parent directories.''',
-       'supporting_data': {
-          'regkey_ref_file': {
-             'section': "description",
-             'preamble': "The programs referenced from the registry can be modified by non-admin users:",
+   r'WPC058': {
+      r'title': "Registry \"Run\" Keys Reference Programs With Weak Permissions",
+      r'description':r'''The Run and RunOnce keys under HKLM reference programs that are run when a user logs in with the privielges of that user.  Some of the programs referenced by the registry keys can be modified by non-administrative user.  This could allow a malcious user to run code of their choosing under the context of other user accounts.  Run and RunOnce are described here: http://msdn.microsoft.com/en-us/library/aa376977(v=vs.85).aspx''',
+      r'recommendation':r'''Set strong file permissions on the executables their parent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_file': {
+            r'section': "description",
+            r'preamble': "The programs referenced from the registry can be modified by non-admin users:",
           },
        }
     },
-    'WPC059': {
-       'title': "Registry \"RunServices\" Keys Reference Programs With Weak Permissions",
-       'description': '''The RunServices and RunServicesOnce keys under HKLM reference programs that are run before the Login Dialog box appears.  Commands are run as SYSTEM.  Some of the programs referenced by the registry keys can be modified by non-administrative user.  This could allow a malcious user to run code of their choosing under the context of the SYSTEM account.  RunServices and RunServicesOnce are described here: http://support.microsoft.com/kb/179365''',
-       'recommendation': '''Set strong file permissions on the executables their parent directories.''',
-       'supporting_data': {
-          'regkey_ref_file': {
-             'section': "description",
-             'preamble': "The programs referenced from the registry can be modified by non-admin users:",
+   r'WPC059': {
+      r'title': "Registry \"RunServices\" Keys Reference Programs With Weak Permissions",
+      r'description':r'''The RunServices and RunServicesOnce keys under HKLM reference programs that are run before the Login Dialog box appears.  Commands are run as SYSTEM.  Some of the programs referenced by the registry keys can be modified by non-administrative user.  This could allow a malcious user to run code of their choosing under the context of the SYSTEM account.  RunServices and RunServicesOnce are described here: http://support.microsoft.com/kb/179365''',
+      r'recommendation':r'''Set strong file permissions on the executables their parent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_file': {
+            r'section': "description",
+            r'preamble': "The programs referenced from the registry can be modified by non-admin users:",
           },
        }
     },
-    'WPC060': {
-       'title': "KnownDLLs Have Weak Permissions",
-       'description': '''The KnownDLLs registry key holds the name and path of various DLLs.  Programs that rely on these DLLs will load them from the known location instead of searching the rest of the PATH.  More information on KnownDLLs can be found here: http://support.microsoft.com/kb/164501''',
-       'recommendation': '''Set strong file permissions on the DLLs their parent directories.''',
-       'supporting_data': {
-          'regkey_ref_file': {
-             'section': "description",
-             'preamble': "The programs referenced from the registry can be modified by non-admin users:",
+   r'WPC060': {
+      r'title': "KnownDLLs Have Weak Permissions",
+      r'description':r'''The KnownDLLs registry key holds the name and path of various DLLs.  Programs that rely on these DLLs will load them from the known location instead of searching the rest of the PATH.  More information on KnownDLLs can be found here: http://support.microsoft.com/kb/164501''',
+      r'recommendation':r'''Set strong file permissions on the DLLs their parent directories.''',
+      r'supporting_data': {
+         r'regkey_ref_file': {
+            r'section': "description",
+            r'preamble': "The programs referenced from the registry can be modified by non-admin users:",
           },
        }
     },
-    'WPC061': {
-       'title': "CLSID References DLLs/EXEs With Weak File Permissions (experimental)",
-       'description': '''Some of the CLSIDs reference files with insecure permissions.  This may indicate the presence of a vulnerability, but it depends what the CLSID is used for.  Try searching the registry for the CLSIDs below to determine how they are used and if this issue might be exploitable.
+   r'WPC061': {
+      r'title': "CLSID References DLLs/EXEs With Weak File Permissions (experimental)",
+      r'description':r'''Some of the CLSIDs reference files with insecure permissions.  This may indicate the presence of a vulnerability, but it depends what the CLSID is used for.  Try searching the registry for the CLSIDs below to determine how they are used and if this issue might be exploitable.
 
 Further information about CLSIDs is available here: http://msdn.microsoft.com/en-us/library/windows/desktop/ms691424(v=vs.85).aspx''',
-       'recommendation': '''Set strong file permissions on files referenced from CLSIDs.''',
-       'supporting_data': {
-          'regkey_ref_file': {
-             'section': "description",
-             'preamble': "The programs referenced from the registry can be modified by non-admin users:",
+      r'recommendation':r'''Set strong file permissions on files referenced from CLSIDs.''',
+      r'supporting_data': {
+         r'regkey_ref_file': {
+            r'section': "description",
+            r'preamble': "The programs referenced from the registry can be modified by non-admin users:",
           },
        }
     },
-    'WPC062': {
-       'title': "Windows Service Executable Is Missing",
-       'description': '''Each Windows Service has a corresponding executable.  The executables for some services were missing at the time of the audit.  This can sometimes be caused programs being manually deleted instead of being properly uninstalled.  Although this configuration is unusual and probably undesirable, it is unlikely to be a security issue unless an attacker can recreate the executables in question - an issue that was NOT checked for (please check manually).  It may be an indication that an attacker has previously abused a Windows service and left it in a half-configured state, so investigating the cause of the problem is advised.''',
-       'recommendation': '''Investigate why the service is broken and either fix or remove the service as appropriate.''',
-       'supporting_data': {
-          'service_no_exe': {
-             'section': "description",
-             'preamble': "The following Windows Services has missing executables:",
+   r'WPC062': {
+      r'title': "Windows Service Executable Is Missing",
+      r'description':r'''Each Windows Service has a corresponding executable.  The executables for some services were missing at the time of the audit.  This can sometimes be caused programs being manually deleted instead of being properly uninstalled.  Although this configuration is unusual and probably undesirable, it is unlikely to be a security issue unless an attacker can recreate the executables in question - an issue that was NOT checked for (please check manually).  It may be an indication that an attacker has previously abused a Windows service and left it in a half-configured state, so investigating the cause of the problem is advised.''',
+      r'recommendation':r'''Investigate why the service is broken and either fix or remove the service as appropriate.''',
+      r'supporting_data': {
+         r'service_no_exe': {
+            r'section': "description",
+            r'preamble': "The following Windows Services has missing executables:",
           },
        }
     },
-    'WPC063': {
-       'title': "Windows Service Running Under Domain Account",
-       'description': '''The configuration for each Windows Service specifies the user context under which the service runs.  Often services run as Built-in security pricipals such as LocalSystem, Network Service, Local Service, etc. or as a dedicated local user account.  In the case of the system audited, some of the Windows Services were found to run in the context of a Domain account.  It would therefore be possible for any attacker who gained local admin rights on the system to recover the cleartext password for the Domain accounts in question.  Depending on the priviliges of those accounts, it may be possible for an attacker to abuse the accounts to compromise further systems on the network.''',
-       'recommendation': '''Ensure that Domain accounts are only used when absolutely necessary.  When they are used, ensure that the group memberships of the account are restricted to only those required - avoiding membership of Domain Admins.  Where possible also ensure that service accounts are only able to logon from a whitelist of named workstations.  These recommendations help to limit the potential abuse of domain accounts.''',
-       'supporting_data': {
-          'service_domain_user': {
-             'section': "description",
-             'preamble': "The following windows services run in the context of Domain accounts:",
+   r'WPC063': {
+      r'title': "Windows Service Running Under Domain Account",
+      r'description':r'''The configuration for each Windows Service specifies the user context under which the service runs.  Often services run as Built-in security pricipals such as LocalSystem, Network Service, Local Service, etc. or as a dedicated local user account.  In the case of the system audited, some of the Windows Services were found to run in the context of a Domain account.  It would therefore be possible for any attacker who gained local admin rights on the system to recover the cleartext password for the Domain accounts in question.  Depending on the priviliges of those accounts, it may be possible for an attacker to abuse the accounts to compromise further systems on the network.''',
+      r'recommendation':r'''Ensure that Domain accounts are only used when absolutely necessary.  When they are used, ensure that the group memberships of the account are restricted to only those required - avoiding membership of Domain Admins.  Where possible also ensure that service accounts are only able to logon from a whitelist of named workstations.  These recommendations help to limit the potential abuse of domain accounts.''',
+      r'supporting_data': {
+         r'service_domain_user': {
+            r'section': "description",
+            r'preamble': "The following windows services run in the context of Domain accounts:",
           },
        }
     },
-    'WPC064': {
-       'title': "Windows Service Running Under Named Local Account",
-       'description': '''The configuration for each Windows Service specifies the user context under which the service runs.  Often services run as Built-in security pricipals such as LocalSystem, Network Service, Local Service, etc.  In the case of the system audited, some of the Windows Services were found to run in the context of a local account that wasn't a Built-in security principal.  This can be a secure configuration and indeed is recommended configuration for some services such as SQL Server.  However, if administrators have similar services running on other systems, they sometimes configure the Windows Service account to have the same password on each.  It would therefore be possible for any attacker who gained local admin rights on the system to recover the cleartext password for the local Windows Service accounts in question.  It passwords are reused, it may be possible for an attacker to abuse the accounts to compromise further systems on the network.''',
-       'recommendation': '''Ensure that the group memberships of the account are restricted to only those required - avoiding membership of the Administrators group.  Where possible also ensure that service accounts are not able to log on interactively, as batch jobs or log in over the network.  These recommendations help to limit the potential abuse of windows service accounts.''',
-       'supporting_data': {
-          'service_domain_user': {
-             'section': "description",
-             'preamble': "The following windows services run in the context of local accounts:",
+   r'WPC064': {
+      r'title': "Windows Service Running Under Named Local Account",
+      r'description':r'''The configuration for each Windows Service specifies the user context under which the service runs.  Often services run as Built-in security pricipals such as LocalSystem, Network Service, Local Service, etc.  In the case of the system audited, some of the Windows Services were found to run in the context of a local account that wasn't a Built-in security principal.  This can be a secure configuration and indeed is recommended configuration for some services such as SQL Server.  However, if administrators have similar services running on other systems, they sometimes configure the Windows Service account to have the same password on each.  It would therefore be possible for any attacker who gained local admin rights on the system to recover the cleartext password for the local Windows Service accounts in question.  It passwords are reused, it may be possible for an attacker to abuse the accounts to compromise further systems on the network.''',
+      r'recommendation':r'''Ensure that the group memberships of the account are restricted to only those required - avoiding membership of the Administrators group.  Where possible also ensure that service accounts are not able to log on interactively, as batch jobs or log in over the network.  These recommendations help to limit the potential abuse of windows service accounts.''',
+      r'supporting_data': {
+         r'service_domain_user': {
+            r'section': "description",
+            r'preamble': "The following windows services run in the context of local accounts:",
           },
        }
     },
-    'WPC065': {
-       'title': "Windows Services for Pentesting/Auditing Tools Found",
-       'description': '''Some of the Windows service running appear to correspond to tools that are commons used for pentesting or auditing.  These may or may not present a security problem.  The main purpose of this issue is to advise the auditor to check if they accidentally added any Windows services.''',
-       'recommendation': '''Check each of the Windows services below and remove them if they have been added during the pentest/audit.''',
-       'supporting_data': {
-          'sectool_services': {
-             'section': "description",
-             'preamble': "The following windows services appear to be pentesting/auditing tools:",
+   r'WPC065': {
+      r'title': "Windows Services for Pentesting/Auditing Tools Found",
+      r'description':r'''Some of the Windows service running appear to correspond to tools that are commons used for pentesting or auditing.  These may or may not present a security problem.  The main purpose of this issue is to advise the auditor to check if they accidentally added any Windows services.''',
+      r'recommendation':r'''Check each of the Windows services below and remove them if they have been added during the pentest/audit.''',
+      r'supporting_data': {
+         r'sectool_services': {
+            r'section': "description",
+            r'preamble': "The following windows services appear to be pentesting/auditing tools:",
           },
        }
     },
-    'WPC066': {
-       'title': "Files for Pentesting/Auditing Tools Found (TODO)",
-       'description': '''Some of the files found during the audit have the same name as tools used during pentesting and security auditing.  These may or may not present a security problem.  The main purpose of this issue is to advise the auditor to check if they forgot to remove any tools.''',
-       'recommendation': '''Check each of the files below and remove them if they have been added during the pentest/audit.''',
-       'supporting_data': {
-          'sectool_files': {
-             'section': "description",
-             'preamble': "The following files appear to be pentesting/auditing tools:",
+   r'WPC066': {
+      r'title': "Files for Pentesting/Auditing Tools Found (TODO)",
+      r'description':r'''Some of the files found during the audit have the same name as tools used during pentesting and security auditing.  These may or may not present a security problem.  The main purpose of this issue is to advise the auditor to check if they forgot to remove any tools.''',
+      r'recommendation':r'''Check each of the files below and remove them if they have been added during the pentest/audit.''',
+      r'supporting_data': {
+         r'sectool_files': {
+            r'section': "description",
+            r'preamble': "The following files appear to be pentesting/auditing tools:",
           },
        }
     },
-    'WPC067': {
-       'title': "Executables for Running Processes Can Be Modified On Disk",
-       'description': '''The file permissions for the processes running at the time of the audit were checked.  The executables for some of the processes could be replaced by non-administrative users.  This could enable an attacker to escalate privilege to the owner of the processes concerned.  An attacker would need to replace the program on disk and wait for the program to be run again as the user concerned.''',
-       'recommendation': '''Set strong file permissions on each of the programs below.  Also set strong file permissions on parent directories.  Ideally only administrative users would have the ability to change programs run by multiple users.  Note that this issue can usually be considered a false positive is users are simply running programs from their home directory - provided that no other non-admin users can modify them.''',
-       'supporting_data': {
-          'process_exe': {
-             'section': "description",
-             'preamble': "The following files could be replaced by non-administrative users (TODO: how?):",
+   r'WPC067': {
+      r'title': "Executables for Running Processes Can Be Modified On Disk",
+      r'description':r'''The file permissions for the processes running at the time of the audit were checked.  The executables for some of the processes could be replaced by non-administrative users.  This could enable an attacker to escalate privilege to the owner of the processes concerned.  An attacker would need to replace the program on disk and wait for the program to be run again as the user concerned.''',
+      r'recommendation':r'''Set strong file permissions on each of the programs below.  Also set strong file permissions on parent directories.  Ideally only administrative users would have the ability to change programs run by multiple users.  Note that this issue can usually be considered a false positive is users are simply running programs from their home directory - provided that no other non-admin users can modify them.''',
+      r'supporting_data': {
+         r'process_exe': {
+            r'section': "description",
+            r'preamble': "The following files could be replaced by non-administrative users (TODO: how?):",
           },
        }
     },
-    'WPC068': {
-       'title': "DLLs Used by Running Processes Can Be Modified On Disk",
-       'description': '''The file permissions for DLLs used by processes running at the time of the audit were checked.  The DLLs for some of the processes could be replaced by non-administrative users.  This could enable an attacker to escalate privilege to the owner of the processes concerned.  An attacker would need to replace the DLL on disk and wait for the program to be run again as the user concerned.''',
-       'recommendation': '''Set strong file permissions on each of the DLLs below.  Also set strong file permissions on parent directories.  Ideally only administrative users would have the ability to change DLLs used by multiple users.    Note that this issue can usually be considered a false positive is users are simply running programs from their home directory - provided that no other non-admin users can modify them.''',
-       'supporting_data': {
-          'process_dll': {
-             'section': "description",
-             'preamble': "The following files could be replaced by non-administrative users (TODO: how?):",
+   r'WPC068': {
+      r'title': "DLLs Used by Running Processes Can Be Modified On Disk",
+      r'description':r'''The file permissions for DLLs used by processes running at the time of the audit were checked.  The DLLs for some of the processes could be replaced by non-administrative users.  This could enable an attacker to escalate privilege to the owner of the processes concerned.  An attacker would need to replace the DLL on disk and wait for the program to be run again as the user concerned.''',
+      r'recommendation':r'''Set strong file permissions on each of the DLLs below.  Also set strong file permissions on parent directories.  Ideally only administrative users would have the ability to change DLLs used by multiple users.    Note that this issue can usually be considered a false positive is users are simply running programs from their home directory - provided that no other non-admin users can modify them.''',
+      r'supporting_data': {
+         r'process_dll': {
+            r'section': "description",
+            r'preamble': "The following files could be replaced by non-administrative users (TODO: how?):",
           },
        }
     },
-    'WPC069': {
-       'title': "Processes Security Descriptor Allow Access To Non-Admin Users (TODO)",
-       'description': '''TODO.  Writeme+Fixme.  This issue currently get false positives about non-priv users being able to change their own process.  Also needs to take account of RESTRICTED processes http://blogs.msdn.com/b/aaron_margosis/archive/2004/09/10/227727.aspx http://msdn.microsoft.com/en-us/library/ms972827.aspx''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'process_perms': {
-             'section': "description",
-             'preamble': "TODO",
+   r'WPC069': {
+      r'title': "Processes Security Descriptor Allow Access To Non-Admin Users (TODO)",
+      r'description':r'''TODO.  Writeme+Fixme.  This issue currently get false positives about non-priv users being able to change their own process.  Also needs to take account of RESTRICTED processes http://blogs.msdn.com/b/aaron_margosis/archive/2004/09/10/227727.aspx http://msdn.microsoft.com/en-us/library/ms972827.aspx''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'process_perms': {
+            r'section': "description",
+            r'preamble': "TODO",
           },
        }
     },
-    'WPC070': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeAssignPrimaryTokenPrivilege",
-       'description': '''TODO SE_ASSIGNPRIMARYTOKEN_NAME TEXT("SeAssignPrimaryTokenPrivilege") Required to assign the primary token of a process.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Replace a process-level token'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC070': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeAssignPrimaryTokenPrivilege",
+      r'description':r'''TODO SE_ASSIGNPRIMARYTOKEN_NAME TEXT("SeAssignPrimaryTokenPrivilege") Required to assign the primary token of a process.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Replace a process-level token'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC071': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeBackupPrivilege",
-       'description': '''TODO SE_BACKUP_NAME TEXT("SeBackupPrivilege") Required to perform backup operations. This privilege causes the system to grant all read access control to any file, regardless of the access control list (ACL) specified for the file. Any access request other than read is still evaluated with the ACL. This privilege is required by the RegSaveKey and RegSaveKeyExfunctions. The following access rights are granted if this privilege is held: READ_CONTROL ACCESS_SYSTEM_SECURITY FILE_GENERIC_READ FILE_TRAVERSE''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Back up files and directories'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC072': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeCreatePagefilePrivilege",
-       'description': '''TODO SE_CREATE_PAGEFILE_NAME TEXT("SeCreatePagefilePrivilege") Required to create a paging file. .''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Create a pagefile'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC071': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeBackupPrivilege",
+      r'description':r'''TODO SE_BACKUP_NAME TEXT("SeBackupPrivilege") Required to perform backup operations. This privilege causes the system to grant all read access control to any file, regardless of the access control list (ACL) specified for the file. Any access request other than read is still evaluated with the ACL. This privilege is required by the RegSaveKey and RegSaveKeyExfunctions. The following access rights are granted if this privilege is held: READ_CONTROL ACCESS_SYSTEM_SECURITY FILE_GENERIC_READ FILE_TRAVERSE''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Back up files and directories'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC073': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeCreateTokenPrivilege",
-       'description': '''TODO SE_CREATE_TOKEN_NAME TEXT("SeCreateTokenPrivilege") Required to create a primary token.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Create a token object'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC074': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeDebugPrivilege",
-       'description': '''TODO SE_DEBUG_NAME TEXT("SeDebugPrivilege") Required to debug and adjust the memory of a process owned by another account.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Debug programs'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC072': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeCreatePagefilePrivilege",
+      r'description':r'''TODO SE_CREATE_PAGEFILE_NAME TEXT("SeCreatePagefilePrivilege") Required to create a paging file. .''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Create a pagefile'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC075': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeEnableDelegationPrivilege",
-       'description': '''TODO SE_ENABLE_DELEGATION_NAME TEXT("SeEnableDelegationPrivilege") Required to mark user and computer accounts as trusted for delegation.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Enable computer and user accounts to be trusted for delegation'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC076': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeLoadDriverPrivilege",
-       'description': '''TODO SE_LOAD_DRIVER_NAME TEXT("SeLoadDriverPrivilege") Required to load or unload a device driver.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Load and unload device drivers'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC073': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeCreateTokenPrivilege",
+      r'description':r'''TODO SE_CREATE_TOKEN_NAME TEXT("SeCreateTokenPrivilege") Required to create a primary token.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Create a token object'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC077': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeMachineAccountPrivilege",
-       'description': '''TODO SE_MACHINE_ACCOUNT_NAME TEXT("SeMachineAccountPrivilege") Required to create a computer account.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Add workstations to domain'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC078': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeManageVolumePrivilege",
-       'description': '''Microsoft warns that "Use caution when assigning this user right. Users with this user right can explore disks and extend files in to memory that contains other data. When the extended files are opened, the user might be able to read and modify the acquired data."''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Manage the files on a volume / Perform volume maintenance tasks'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC074': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeDebugPrivilege",
+      r'description':r'''TODO SE_DEBUG_NAME TEXT("SeDebugPrivilege") Required to debug and adjust the memory of a process owned by another account.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Debug programs'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC079': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeRelabelPrivilege",
-       'description': '''TODO SE_RELABEL_NAME TEXT("SeRelabelPrivilege") Required to modify the mandatory integrity level of an object.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Modify an object label'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC080': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeRestorePrivilege",
-       'description': '''Some users have been granted the ability to write to any file or directory, even if object permissions don't allow it.  Specifically, check for the following permissions can be bypassed by the affected users: WRITE_DAC WRITE_OWNER ACCESS_SYSTEM_SECURITY FILE_GENERIC_WRITE FILE_ADD_FILE FILE_ADD_SUBDIRECTORY DELETE.  Note that it is therefore possible to change the owner or the DACL, meaning that read access is also possible.  This allows the affected users to take full control of any file or directory (but not services?).  This privilege is one of the prerequisites for users to be able to load backups of registry hives into the registry (RegLoadKey).  Note that this privilege is normally granted to members of the local administrators group and this does not infer a security weakness as the users have administration rights already.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Restore files and directories'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC075': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeEnableDelegationPrivilege",
+      r'description':r'''TODO SE_ENABLE_DELEGATION_NAME TEXT("SeEnableDelegationPrivilege") Required to mark user and computer accounts as trusted for delegation.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Enable computer and user accounts to be trusted for delegation'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC081': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeShutdownPrivilege",
-       'description': '''Some users are allowed to shut down the computer.  This may aid an attacker in exploiting a pre-existing vulnerability - e.g. after replacig a program that run at boot time.  Alone, it probably doesn't constitute a privilege escalation vector.  It could lead to desruption of the system, though.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Shut down the system'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC082': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeSyncAgentPrivilege",
-       'description': '''TODO SE_SYNC_AGENT_NAME TEXT("SeSyncAgentPrivilege") Required for a domain controller to use the LDAP directory synchronization services. This privilege enables the holder to read all objects and properties in the directory, regardless of the protection on the objects and properties. By default, it is assigned to the Administrator and LocalSystem accounts on domain controllers.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Synchronize directory service data'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC076': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeLoadDriverPrivilege",
+      r'description':r'''TODO SE_LOAD_DRIVER_NAME TEXT("SeLoadDriverPrivilege") Required to load or unload a device driver.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Load and unload device drivers'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC083': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeTakeOwnershipPrivilege",
-       'description': '''Some users have been granted the ability to take ownership of any object, even if object permissions don't grant them "Take Ownership" rights.  This allows the affected users to take full control of any object (file, directory, service, etc.).  This could trivially lead to the user escallating rights to local administrator.  Note that this privilege is normally granted to members of the local administrators group and this does not infer a security weakness as the users have administration rights already.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Take ownership of files or other objects'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC084': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeTcbPrivilege",
-       'description': '''TODO SE_TCB_NAME TEXT("SeTcbPrivilege") This privilege identifies its holder as part of the trusted computer base. Some trusted protected subsystems are granted this privilege.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Act as part of the operating system'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
+   r'WPC077': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeMachineAccountPrivilege",
+      r'description':r'''TODO SE_MACHINE_ACCOUNT_NAME TEXT("SeMachineAccountPrivilege") Required to create a computer account.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Add workstations to domain'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
           },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
-          },
-       }
-    },
-    'WPC085': {
-       'title': "Windows Users/Groups Hold Powerful Privilege: SeTrustedCredManAccessPrivilege",
-       'description': '''TODO SE_TRUSTED_CREDMAN_ACCESS_NAME TEXT("SeTrustedCredManAccessPrivilege") Required to access Credential Manager as a trusted caller.''',
-       'recommendation': '''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. under 'Access Credential Manager as a trusted caller'  in secpol.msc.''',
-       'supporting_data': {
-          'user_powerful_priv': {
-             'section': "description",
-             'preamble': "The following users hold the privilege:",
-          },
-          'group_powerful_priv': {
-             'section': "description",
-             'preamble': "The following groups hold the privilege:",
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC086': {
-       'title': "Share Level Permissions Allow Access By Non-Admin Users",
-       'description': '''The share-level permissions on some Windows file shares allows access by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow data to be stolen or programs to be maliciously modified.  NB: Setting strong NTFS permissions can sometimes mean that data which seems to be exposed on a share actually isn't accessible.''',
-       'recommendation': '''Review the share-level permissions that have been granted to non-administrative users and revoke access where possible.  Share-level permissions can be viewed in Windows Explorer: Right-click folder | Sharing and Security | "Sharing" tab | "Permissions" button (for XP - other OSs may vary slightly).''',
-       'supporting_data': {
-          'non_admin_shares': {
-             'section': "description",
-             'preamble': "The following non-admin users have been granted FILE_READ_DATA permission on shares:",
+   r'WPC078': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeManageVolumePrivilege",
+      r'description':r'''Microsoft warns that "Use caution when assigning this user right. Users with this user right can explore disks and extend files in to memory that contains other data. When the extended files are opened, the user might be able to read and modify the acquired data."''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Manage the files on a volume / Perform volume maintenance tasks'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
           },
        }
     },
-    'WPC087': {
-       'title': "Directory Creation Allowed On Drive Root",
-       'description': '''Some of the local drive roots allow non-administrative users to create directories.  This could provide attackers with a place to stash hacking tools, or proive legitimacy to malware they are seeking to get other users to run.  It is relatively common to allow the creation of directories in the drive root, but it probably isn't required for normal operation.
+   r'WPC079': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeRelabelPrivilege",
+      r'description':r'''TODO SE_RELABEL_NAME TEXT("SeRelabelPrivilege") Required to modify the mandatory integrity level of an object.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Modify an object label'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC080': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeRestorePrivilege",
+      r'description':r'''Some users have been granted the ability to write to any file or directory, even if object permissions don't allow it.  Specifically, check for the following permissions can be bypassed by the affected users: WRITE_DAC WRITE_OWNER ACCESS_SYSTEM_SECURITY FILE_GENERIC_WRITE FILE_ADD_FILE FILE_ADD_SUBDIRECTORY DELETE.  Note that it is therefore possible to change the owner or the DACL, meaning that read access is also possible.  This allows the affected users to take full control of any file or directory (but not services?).  This privilege is one of the prerequisites for users to be able to load backups of registry hives into the registry (RegLoadKey).  Note that this privilege is normally granted to members of the local administrators group and this does not infer a security weakness as the users have administration rights already.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Restore files and directories'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC081': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeShutdownPrivilege",
+      r'description':r'''Some users are allowed to shut down the computer.  This may aid an attacker in exploiting a pre-existing vulnerability - e.g. after replacig a program that run at boot time.  Alone, it probably doesn't constitute a privilege escalation vector.  It could lead to desruption of the system, though.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Shut down the system'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC082': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeSyncAgentPrivilege",
+      r'description':r'''TODO SE_SYNC_AGENT_NAME TEXT("SeSyncAgentPrivilege") Required for a domain controller to use the LDAP directory synchronization services. This privilege enables the holder to read all objects and properties in the directory, regardless of the protection on the objects and properties. By default, it is assigned to the Administrator and LocalSystem accounts on domain controllers.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Synchronize directory service data'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC083': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeTakeOwnershipPrivilege",
+      r'description':r'''Some users have been granted the ability to take ownership of any object, even if object permissions don't grant them "Take Ownership" rights.  This allows the affected users to take full control of any object (file, directory, service, etc.).  This could trivially lead to the user escallating rights to local administrator.  Note that this privilege is normally granted to members of the local administrators group and this does not infer a security weakness as the users have administration rights already.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Take ownership of files or other objects'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC084': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeTcbPrivilege",
+      r'description':r'''TODO SE_TCB_NAME TEXT("SeTcbPrivilege") This privilege identifies its holder as part of the trusted computer base. Some trusted protected subsystems are granted this privilege.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Act as part of the operating system'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC085': {
+      r'title': "Windows Users/Groups Hold Powerful Privilege: SeTrustedCredManAccessPrivilege",
+      r'description':r'''TODO SE_TRUSTED_CREDMAN_ACCESS_NAME TEXT("SeTrustedCredManAccessPrivilege") Required to access Credential Manager as a trusted caller.''',
+      r'recommendation':r'''Review the list of users below who hold this privilege.  Revoke it where it is not required - e.g. underr'Access Credential Manager as a trusted caller'  in secpol.msc.''',
+      r'supporting_data': {
+         r'user_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following users hold the privilege:",
+          },
+         r'group_powerful_priv': {
+            r'section': "description",
+            r'preamble': "The following groups hold the privilege:",
+          },
+       }
+    },
+   r'WPC086': {
+      r'title': "Share Level Permissions Allow Access By Non-Admin Users",
+      r'description':r'''The share-level permissions on some Windows file shares allows access by non-administrative users.  This can often be desirable, in which case this issue can be ignored.  However, sometimes it can allow data to be stolen or programs to be maliciously modified.  NB: Setting strong NTFS permissions can sometimes mean that data which seems to be exposed on a share actually isn't accessible.''',
+      r'recommendation':r'''Review the share-level permissions that have been granted to non-administrative users and revoke access where possible.  Share-level permissions can be viewed in Windows Explorer: Right-click folder | Sharing and Security | "Sharing" tab | "Permissions" button (for XP - other OSs may vary slightly).''',
+      r'supporting_data': {
+         r'non_admin_shares': {
+            r'section': "description",
+            r'preamble': "The following non-admin users have been granted FILE_READ_DATA permission on shares:",
+          },
+       }
+    },
+   r'WPC087': {
+      r'title': "Directory Creation Allowed On Drive Root",
+      r'description':r'''Some of the local drive roots allow non-administrative users to create directories.  This could provide attackers with a place to stash hacking tools, or proive legitimacy to malware they are seeking to get other users to run.  It is relatively common to allow the creation of directories in the drive root, but it probably isn't required for normal operation.
 
 NB: This issue has only been reported for NTFS filesystems.  Other non-NTFS file system may also allow this behaviour.  A separate issue is reported for non-NTFS filesystems.''',
-       'recommendation': '''Modify the permissions on the drive roots to only allow administrators to create directories.  Revoke this permission from low-privileged users.''',
-       'supporting_data': {
-          'dir_add_dir': {
-             'section': "description",
-             'preamble': "The following drives allow non-administrative users to create directories in to their root:",
+      r'recommendation':r'''Modify the permissions on the drive roots to only allow administrators to create directories.  Revoke this permission from low-privileged users.''',
+      r'supporting_data': {
+         r'dir_add_dir': {
+            r'section': "description",
+            r'preamble': "The following drives allow non-administrative users to create directories in to their root:",
           },
        }
     },
-    'WPC088': {
-       'title': "Read Permissions Allowed On Event Log File",
-       'description': '''Some of the Event Log files could be read by non-administrative users.  This may allow attackers to view log information they weren't intended to see.  This can help them to determine if they are being monitored or to access information which may help in other attacks.''',
-       'recommendation': '''Modify the permissions on the above files to allow only administrators read access.  Revoke read access from low-privileged users.''',
-       'supporting_data': {
-          'file_read': {
-             'section': "description",
-             'preamble': "The files below could be changed by non-administrative users:",
+   r'WPC088': {
+      r'title': "Read Permissions Allowed On Event Log File",
+      r'description':r'''Some of the Event Log files could be read by non-administrative users.  This may allow attackers to view log information they weren't intended to see.  This can help them to determine if they are being monitored or to access information which may help in other attacks.''',
+      r'recommendation':r'''Modify the permissions on the above files to allow only administrators read access.  Revoke read access from low-privileged users.''',
+      r'supporting_data': {
+         r'file_read': {
+            r'section': "description",
+            r'preamble': "The files below could be changed by non-administrative users:",
           },
        }
     },
-    'WPC089': {
-       'title': "Missing Security Patches Leave System At Risk From Public Exploit Code",
-       'description': '''The system was determined to be missing some security patches.  The patches concerned fix vulnerabilities for which public exploit code exists.''',
-       'recommendation': '''Apply the latest security patches.''',
-       'supporting_data': {
-          'exploit_list': {
-             'section': "description",
-             'preamble': "The following public exploits are believed to be effective against the system:",
+   r'WPC089': {
+      r'title': "Missing Security Patches Leave System At Risk From Public Exploit Code",
+      r'description':r'''The system was determined to be missing some security patches.  The patches concerned fix vulnerabilities for which public exploit code exists.''',
+      r'recommendation':r'''Apply the latest security patches.''',
+      r'supporting_data': {
+         r'exploit_list': {
+            r'section': "description",
+            r'preamble': "The following public exploits are believed to be effective against the system:",
           },
        }
     },
-    'WPC090': {
-       'title': "Screen Saver Is Not Password Protected",
-       'description': '''Some system users were found to not use password protected screen savers.  This may leave unattended systems open to abuse.''',
-       'recommendation': '''Ensure that all accounts that are logged into interactively use a password protected screen saver.''',
-       'supporting_data': {
-          'user_reg_keys': {
-             'section': "description",
-             'preamble': "The following registry keys indicate the absence of a password-protected screen saver for some users:",
+   r'WPC090': {
+      r'title': "Screen Saver Is Not Password Protected",
+      r'description':r'''Some system users were found to not use password protected screen savers.  This may leave unattended systems open to abuse.''',
+      r'recommendation':r'''Ensure that all accounts that are logged into interactively use a password protected screen saver.''',
+      r'supporting_data': {
+         r'user_reg_keys': {
+            r'section': "description",
+            r'preamble': "The following registry keys indicate the absence of a password-protected screen saver for some users:",
           },
        }
     },
-    'WPC091': {
-       'title': "Screen Saver Timeout Is Too Long",
-       'description': '''The elapsed time before the password-protected screen saver activates is longer than 10 mins for some users.  This may leave unattended systems open to abuse for longer than necessary.''',
-       'recommendation': '''For user accounts that are logged into interactively, configure a suitable screen saver timeout to protect idle systems.  The precise timeout required may vary depending on the environment.''',
-       'supporting_data': {
-          'user_reg_keys': {
-             'section': "description",
-             'preamble': "The registy keys below show the timeout in seconds:",
+   r'WPC091': {
+      r'title': "Screen Saver Timeout Is Too Long",
+      r'description':r'''The elapsed time before the password-protected screen saver activates is longer than 10 mins for some users.  This may leave unattended systems open to abuse for longer than necessary.''',
+      r'recommendation':r'''For user accounts that are logged into interactively, configure a suitable screen saver timeout to protect idle systems.  The precise timeout required may vary depending on the environment.''',
+      r'supporting_data': {
+         r'user_reg_keys': {
+            r'section': "description",
+            r'preamble': "The registy keys below show the timeout in seconds:",
           },
        }
     },
-    'WPC092': {
-       'title': "Host Is In A Domain",
-       'description': '''The host audited is in a domain.  While this is a not a security issue in itself, the inherent trust of other systems could mean that this host is vulnerable to attack even if the local security audit identifies no siginficant security issues.''',
-       'recommendation': '''Ensure that the systems and accounts trusted by this host are also secure.  This may require significantly more auditing.''',
-       'supporting_data': {
-          'dc_info': {
-             'section': "description",
-             'preamble': "The following domain information was retrieved:",
+   r'WPC092': {
+      r'title': "Host Is In A Domain",
+      r'description':r'''The host audited is in a domain.  While this is a not a security issue in itself, the inherent trust of other systems could mean that this host is vulnerable to attack even if the local security audit identifies no siginficant security issues.''',
+      r'recommendation':r'''Ensure that the systems and accounts trusted by this host are also secure.  This may require significantly more auditing.''',
+      r'supporting_data': {
+         r'dc_info': {
+            r'section': "description",
+            r'preamble': "The following domain information was retrieved:",
           },
        }
     },
-    'WPC093': {
-       'title': "Files and Directories Can Be Modified By Non-Admin Users",
-       'description': '''Some files and/or directories can be modified by non-admin users.''',
-       'recommendation': '''Manual investigation is required to determine any impact.  This is just a generic issue.''',
-       'supporting_data': {
-          'writable_dirs': {
-             'section': "description",
-             'preamble': "The following directories were writeable by non-admin users:",
+   r'WPC093': {
+      r'title': "Files and Directories Can Be Modified By Non-Admin Users",
+      r'description':r'''Some files and/or directories can be modified by non-admin users.''',
+      r'recommendation':r'''Manual investigation is required to determine any impact.  This is just a generic issue.''',
+      r'supporting_data': {
+         r'writable_dirs': {
+            r'section': "description",
+            r'preamble': "The following directories were writeable by non-admin users:",
           },
-          'writable_files': {
-             'section': "description",
-             'preamble': "The following files were writeable by non-admin users:",
-          },
-       }
-    },
-    'WPC094': {
-       'title': "User Access Control Setting Allows Malware to Elevate Without Prompt",
-       'description': '''The security policy setting 'User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode' is set to 'Elevate without prompting' or 'Prompt for consent for non-Windows binaries' (default).  This allows malicious programs to elevate without the user agreeing.  Metasploit and other free tools can perform such escalation.''',
-       'recommendation': '''Alter security policy to 'Prompt for consent' or stronger setting.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+         r'writable_files': {
+            r'section': "description",
+            r'preamble': "The following files were writeable by non-admin users:",
           },
        }
     },
-    'WPC095': {
-       'title': "User Access Control Is Not Applied To Builtin Administrator Account",
-       'description': '''The RID 500 account does not run in admin approval mode.  If this user account were to be compromised, UAC would not provide any mitigation.''',
-       'recommendation': '''Enable the security policy setting 'User Account Control: Use Admin Approval Mode for the built-in Administrator account'.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC094': {
+      r'title': "User Access Control Setting Allows Malware to Elevate Without Prompt",
+      r'description':r'''The security policy settingr'User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode' is set tor'Elevate without prompting' orr'Prompt for consent for non-Windows binaries' (default).  This allows malicious programs to elevate without the user agreeing.  Metasploit and other free tools can perform such escalation.''',
+      r'recommendation':r'''Alter security policy tor'Prompt for consent' or stronger setting.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC096': {
-       'title': "User Access Control Not Enabled",
-       'description': '''UAC has been disabled on the system.  It will not mitigate the compromise of administrative accounts.  This is not the default configuration.''',
-       'recommendation': '''Enable the security policy setting 'User Account Control: Run all administrators in Admin Approval Mode'.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC095': {
+      r'title': "User Access Control Is Not Applied To Builtin Administrator Account",
+      r'description':r'''The RID 500 account does not run in admin approval mode.  If this user account were to be compromised, UAC would not provide any mitigation.''',
+      r'recommendation':r'''Enable the security policy settingr'User Account Control: Use Admin Approval Mode for the built-in Administrator account'.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC097': {
-       'title': "User Access Control Does not Prompt on the Secure Desktop",
-       'description': '''UAC has not been configured to use the secure desktop when prompting for elevation.  It might be possible to subvert the consent process and trick a user into approving elevation of malware.''',
-       'recommendation': '''Enable the security policy setting 'User Account Control: Switch to the secure desktop when prompting for elevation'.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC096': {
+      r'title': "User Access Control Not Enabled",
+      r'description':r'''UAC has been disabled on the system.  It will not mitigate the compromise of administrative accounts.  This is not the default configuration.''',
+      r'recommendation':r'''Enable the security policy settingr'User Account Control: Run all administrators in Admin Approval Mode'.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC098': {
-       'title': "LANMan Authentication Level Not Set To Mandate NTLMv2",
-       'description': '''The system has not been configured to mandate the use of NTLMv2 when acting as a client and a server.  This leaves network communications more open to attack.''',
-       'recommendation': '''Set the security policy setting 'Network security: LAN Manager authentication level' to 'Send NTLMv2 response only\refuse LM & NTLM'.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC097': {
+      r'title': "User Access Control Does not Prompt on the Secure Desktop",
+      r'description':r'''UAC has not been configured to use the secure desktop when prompting for elevation.  It might be possible to subvert the consent process and trick a user into approving elevation of malware.''',
+      r'recommendation':r'''Enable the security policy settingr'User Account Control: Switch to the secure desktop when prompting for elevation'.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC099': {
-       'title': "Weak LANMan Password Hash Used In SAM",
-       'description': '''LANMan password hashes are stored in the SAM.  If the system were to be compromised, it would be much easier for an attacker to recover passwords than if the use of LANman had been disabled.''',
-       'recommendation': '''Set the security policy setting 'Network security: Do not store LAN Manager hash value on next password change' to Enabled.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC098': {
+      r'title': "LANMan Authentication Level Not Set To Mandate NTLMv2",
+      r'description':r'''The system has not been configured to mandate the use of NTLMv2 when acting as a client and a server.  This leaves network communications more open to attack.''',
+      r'recommendation':r'''Set the security policy settingr'Network security: LAN Manager authentication level' tor'Send NTLMv2 response only\refuse LM & NTLM'.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC100': {
-       'title': "System Caches Logon Credentails",
-       'description': '''The system is configured to cache a number of logon credentials in case the domain controller is unavaialble next time a user tries to log in.  Such data can be accessed and potentially used to recover domain passwords in the event of a compromise.''',
-       'recommendation': '''Set the security policy setting 'Interactive logon: Number of previous logons to cache (in case domain controller is not available)' 0 if possible - though this might not be a usable configuration for laptops.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC099': {
+      r'title': "Weak LANMan Password Hash Used In SAM",
+      r'description':r'''LANMan password hashes are stored in the SAM.  If the system were to be compromised, it would be much easier for an attacker to recover passwords than if the use of LANman had been disabled.''',
+      r'recommendation':r'''Set the security policy settingr'Network security: Do not store LAN Manager hash value on next password change' to Enabled.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC101': {
-       'title': "SMB Server Does Not Mandate Packet Signing",
-       'description': '''SMB clients that connect to this server are not forced to use signing.  As signing protects data from modification in transit, clients may end up receiving data that has been maliciously altered by an attacker.  This could lead to a compromise of the client if it opens or runs the files accessed - particularly in the case of a domain member access group policy information.''',
-       'recommendation': '''Set the security policy setting 'Microsoft network server: Digitally sign communications (always)' to Enabled.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC100': {
+      r'title': "System Caches Logon Credentails",
+      r'description':r'''The system is configured to cache a number of logon credentials in case the domain controller is unavaialble next time a user tries to log in.  Such data can be accessed and potentially used to recover domain passwords in the event of a compromise.''',
+      r'recommendation':r'''Set the security policy settingr'Interactive logon: Number of previous logons to cache (in case domain controller is not available)' 0 if possible - though this might not be a usable configuration for laptops.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC102': {
-       'title': "SMB Client Does Not Mandate Packet Signing",
-       'description': '''SMB connection originating from this host might not negotiate pack signing.  As signing protects data from modification in transit, clients may end up sending or receiving data that has been maliciously altered by an attacker.  This could lead to a compromise of the client or server.''',
-       'recommendation': '''Set the security policy setting 'Microsoft network server: Digitally sign communications (always)' to Enabled.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC101': {
+      r'title': "SMB Server Does Not Mandate Packet Signing",
+      r'description':r'''SMB clients that connect to this server are not forced to use signing.  As signing protects data from modification in transit, clients may end up receiving data that has been maliciously altered by an attacker.  This could lead to a compromise of the client if it opens or runs the files accessed - particularly in the case of a domain member access group policy information.''',
+      r'recommendation':r'''Set the security policy settingr'Microsoft network server: Digitally sign communications (always)' to Enabled.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC103': {
-       'title': "Screen Saver Does Not Activate Automatically",
-       'description': '''No screensaver was configured for some users.''',
-       'recommendation': '''For user accounts that are logged into interactively, configure a suitable screen saver timeout to protect idle systems.  The precise timeout required may vary depending on the environment.''',
-       'supporting_data': {
-          'user_reg_keys': {
-             'section': "description",
-             'preamble': "The registy keys below show if the screen saver is active or inactive:",
+   r'WPC102': {
+      r'title': "SMB Client Does Not Mandate Packet Signing",
+      r'description':r'''SMB connection originating from this host might not negotiate pack signing.  As signing protects data from modification in transit, clients may end up sending or receiving data that has been maliciously altered by an attacker.  This could lead to a compromise of the client or server.''',
+      r'recommendation':r'''Set the security policy settingr'Microsoft network server: Digitally sign communications (always)' to Enabled.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC104': {
-       'title': "Thread Security Descriptor Allows Access To Non-Admin Users (TODO)",
-       'description': '''TODO.  Writeme+Fixme.  This issue currently get false positives about non-priv users being able to change their own process.  Also needs to take account of RESTRICTED processes http://blogs.msdn.com/b/aaron_margosis/archive/2004/09/10/227727.aspx http://msdn.microsoft.com/en-us/library/ms972827.aspx''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'thread_perms': {
-             'section': "description",
-             'preamble': "TODO",
+   r'WPC103': {
+      r'title': "Screen Saver Does Not Activate Automatically",
+      r'description':r'''No screensaver was configured for some users.''',
+      r'recommendation':r'''For user accounts that are logged into interactively, configure a suitable screen saver timeout to protect idle systems.  The precise timeout required may vary depending on the environment.''',
+      r'supporting_data': {
+         r'user_reg_keys': {
+            r'section': "description",
+            r'preamble': "The registy keys below show if the screen saver is active or inactive:",
           },
        }
     },
-    'WPC105': {
-       'title': "Token Security Descriptor Allows Access To Non-Admin Users (TODO)",
-       'description': '''TODO''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'token_perms': {
-             'section': "description",
-             'preamble': "TODO",
+   r'WPC104': {
+      r'title': "Thread Security Descriptor Allows Access To Non-Admin Users (TODO)",
+      r'description':r'''TODO.  Writeme+Fixme.  This issue currently get false positives about non-priv users being able to change their own process.  Also needs to take account of RESTRICTED processes http://blogs.msdn.com/b/aaron_margosis/archive/2004/09/10/227727.aspx http://msdn.microsoft.com/en-us/library/ms972827.aspx''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'thread_perms': {
+            r'section': "description",
+            r'preamble': "TODO",
           },
        }
     },
-    'WPC106': {
-       'title': "Terminal Server Running in Relaxed Security Mode",
-       'description': '''The builtin security pricinpal NT AUTHORITY\TERMINAL SERVER USER is being applied to users who log in via Terminal Servies.  This is a powerful security principal able to change ciritical areas of the filesystem and registry.  It is intended to be used for legacy application that do not function properly under Terminal Services.  However, it has the side effect of allowing privilege escalation via tampering with crticial files such as program files.''',
-       'recommendation': '''Use Full Security Mode instead of Relaxed Security Mode.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC105': {
+      r'title': "Token Security Descriptor Allows Access To Non-Admin Users (TODO)",
+      r'description':r'''TODO''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'token_perms': {
+            r'section': "description",
+            r'preamble': "TODO",
           },
        }
     },
-    'WPC107': {
-       'title': "Current Working Directory Used For DLL Search - Including Network Locations",
-       'description': '''CWDIllegalInDllSearch was set to 0.  This causes applications (by default) to load DLLs from the current directory - even for network locations.  This can lead to malicious DLLs being executed in some attack scenarios.  Note that KB2264107 needs to be installed to enable more secure settings - not checked for.  Also apps can be secured individually - also not checked for.''',
-       'recommendation': '''Consider setting CWDIllegalInDllSearch to 1, 2 or 0xFFFFFFFF to improve security - though this may break some applications.  See http://support.microsoft.com/kb/2264107 for further information including how to set CWDIllegalInDllSearch on a per-application basis.''',
-       'supporting_data': {
-          'reg_key_value': {
-             'section': "description",
-             'preamble': "The following registry key shows the current policy setting:",
+   r'WPC106': {
+      r'title': "Terminal Server Running in Relaxed Security Mode",
+      r'description':r'''The builtin security pricinpal NT AUTHORITY\TERMINAL SERVER USER is being applied to users who log in via Terminal Servies.  This is a powerful security principal able to change ciritical areas of the filesystem and registry.  It is intended to be used for legacy application that do not function properly under Terminal Services.  However, it has the side effect of allowing privilege escalation via tampering with crticial files such as program files.''',
+      r'recommendation':r'''Use Full Security Mode instead of Relaxed Security Mode.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC108': {
-       'title': "User Password Stored Using Reversible Encryption",
-       'description': '''TODO UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED was enabled for a user''',
-       'recommendation': '''Attackers undertaking post-exploitation activities could recover the cleartext password.  TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC107': {
+      r'title': "Current Working Directory Used For DLL Search - Including Network Locations",
+      r'description':r'''CWDIllegalInDllSearch was set to 0.  This causes applications (by default) to load DLLs from the current directory - even for network locations.  This can lead to malicious DLLs being executed in some attack scenarios.  Note that KB2264107 needs to be installed to enable more secure settings - not checked for.  Also apps can be secured individually - also not checked for.''',
+      r'recommendation':r'''Consider setting CWDIllegalInDllSearch to 1, 2 or 0xFFFFFFFF to improve security - though this may break some applications.  See http://support.microsoft.com/kb/2264107 for further information including how to set CWDIllegalInDllSearch on a per-application basis.''',
+      r'supporting_data': {
+         r'reg_key_value': {
+            r'section': "description",
+            r'preamble': "The following registry key shows the current policy setting:",
           },
        }
     },
-    'WPC109': {
-       'title': "User Password Is Too Old",
-       'description': '''TODO The password had not been changed for over 1 year for some accounts that were neither locked nor disabled.''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'password_age': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC108': {
+      r'title': "User Password Stored Using Reversible Encryption",
+      r'description':r'''TODO UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED was enabled for a user''',
+      r'recommendation':r'''Attackers undertaking post-exploitation activities could recover the cleartext password.  TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC110': {
-       'title': "User Password Not Required",
-       'description': '''TODO UF_PASSWD_NOTREQD was set for some accounts that were neither locked nor disabled''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC109': {
+      r'title': "User Password Is Too Old",
+      r'description':r'''TODO The password had not been changed for over 1 year for some accounts that were neither locked nor disabled.''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'password_age': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC111': {
-       'title': "Some Users Cannot Change Their Password",
-       'description': '''TODO UF_PASSWD_CANT_CHANGE was set for some accounts that were neither locked nor disabled''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC110': {
+      r'title': "User Password Not Required",
+      r'description':r'''TODO UF_PASSWD_NOTREQD was set for some accounts that were neither locked nor disabled''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC112': {
-       'title': "Some Users Have Passwords That Don't Expire",
-       'description': '''TODO UF_DONT_EXPIRE_PASSWD was set for some accounts that were neither locked nor disabled''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC111': {
+      r'title': "Some Users Cannot Change Their Password",
+      r'description':r'''TODO UF_PASSWD_CANT_CHANGE was set for some accounts that were neither locked nor disabled''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC113': {
-       'title': "Some User Accounts Trusted For Delegation",
-       'description': '''TODO UF_TRUSTED_FOR_DELEGATION was set for some accounts that were neither locked nor disabled''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC112': {
+      r'title': "Some Users Have Passwords That Don't Expire",
+      r'description':r'''TODO UF_DONT_EXPIRE_PASSWD was set for some accounts that were neither locked nor disabled''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC114': {
-       'title': "Some User Accounts Trusted To Authenticate For Delegation",
-       'description': '''TODO UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION was set for some accounts that were neither locked nor disabled''',
-       'recommendation': '''TODO''',
-       'supporting_data': {
-          'username': {
-             'section': "description",
-             'preamble': "The following users are affected:",
+   r'WPC113': {
+      r'title': "Some User Accounts Trusted For Delegation",
+      r'description':r'''TODO UF_TRUSTED_FOR_DELEGATION was set for some accounts that were neither locked nor disabled''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC115': {
-       'title': "Non-Admin Can Change Registry Keys Containing Executables",
-       'description': '''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be an executable (e.g. .exe, .py, .dll).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause a higher privileged process to launch an executable of their choosing.''',
-       'recommendation': '''Set strong registry permissions on any values that high privileged processes use to launch executable code.''',
-       'supporting_data': {
-          'regkey_value_data_perms': {
-             'section': "description",
-             'preamble': "The following registry value are affected:",
+   r'WPC114': {
+      r'title': "Some User Accounts Trusted To Authenticate For Delegation",
+      r'description':r'''TODO UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION was set for some accounts that were neither locked nor disabled''',
+      r'recommendation':r'''TODO''',
+      r'supporting_data': {
+         r'username': {
+            r'section': "description",
+            r'preamble': "The following users are affected:",
           },
        }
     },
-    'WPC116': {
-       'title': "Non-Admin Can Change File Paths In Registry",
-       'description': '''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a file or directory path (e.g. c:\..., \\host\share, \\.\pipe\...).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to follow a malicious UNC file path, forcing disclosure of their netntlm password hash or SMB relay attack.  Other path-based attacks may also be possible.''',
-       'recommendation': '''Set strong registry permissions on any values that high privileged processes use to determine paths.''',
-       'supporting_data': {
-          'regkey_value_data_perms': {
-             'section': "description",
-             'preamble': "The following registry value are affected:",
+   r'WPC115': {
+      r'title': "Non-Admin Can Change Registry Keys Containing Executables",
+      r'description':r'''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be an executable (e.g. .exe, .py, .dll).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause a higher privileged process to launch an executable of their choosing.''',
+      r'recommendation':r'''Set strong registry permissions on any values that high privileged processes use to launch executable code.''',
+      r'supporting_data': {
+         r'regkey_value_data_perms': {
+            r'section': "description",
+            r'preamble': "The following registry value are affected:",
           },
        }
     },
-    'WPC117': {
-       'title': "Non-Admin Can Change Registry Paths That Are Stored In The Registry",
-       'description': '''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a registry path (e.g. SYSTEM\...).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to follow read malicious data from the registry.  The may or may not lead to privilege escalation depending on the context.''',
-       'recommendation': '''Set strong registry permissions on any values that high privileged processes use to determine registry paths.''',
-       'supporting_data': {
-          'regkey_value_data_perms': {
-             'section': "description",
-             'preamble': "The following registry value are affected:",
+   r'WPC116': {
+      r'title': "Non-Admin Can Change File Paths In Registry",
+      r'description':r'''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a file or directory path (e.g. c:\..., \\host\share, \\.\pipe\...).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to follow a malicious UNC file path, forcing disclosure of their netntlm password hash or SMB relay attack.  Other path-based attacks may also be possible.''',
+      r'recommendation':r'''Set strong registry permissions on any values that high privileged processes use to determine paths.''',
+      r'supporting_data': {
+         r'regkey_value_data_perms': {
+            r'section': "description",
+            r'preamble': "The following registry value are affected:",
           },
        }
     },
-    'WPC118': {
-       'title': "Non-Admin Can Change IP Addresses That Are Stored In The Registry",
-       'description': '''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be an IP Address.  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to connect to a malicious IP address.  This may facilitate other attacks such as man-in-the-middle.''',
-       'recommendation': '''Set strong registry permissions on any values that high privileged processes use to determine IP addresses.''',
-       'supporting_data': {
-          'regkey_value_data_perms': {
-             'section': "description",
-             'preamble': "The following registry value are affected:",
+   r'WPC117': {
+      r'title': "Non-Admin Can Change Registry Paths That Are Stored In The Registry",
+      r'description':r'''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a registry path (e.g. SYSTEM\...).  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to follow read malicious data from the registry.  The may or may not lead to privilege escalation depending on the context.''',
+      r'recommendation':r'''Set strong registry permissions on any values that high privileged processes use to determine registry paths.''',
+      r'supporting_data': {
+         r'regkey_value_data_perms': {
+            r'section': "description",
+            r'preamble': "The following registry value are affected:",
           },
        }
     },
-    'WPC119': {
-       'title': "Non-Admin Can Change Usernames That Are Stored In The Registry",
-       'description': '''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a username.  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause another process to run as or otherwise affect a different user account.''',
-       'recommendation': '''Set strong registry permissions on any values that high privileged processes use to determine usernames.''',
-       'supporting_data': {
-          'regkey_value_data_perms': {
-             'section': "description",
-             'preamble': "The following registry value are affected:",
+   r'WPC118': {
+      r'title': "Non-Admin Can Change IP Addresses That Are Stored In The Registry",
+      r'description':r'''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be an IP Address.  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause other users to connect to a malicious IP address.  This may facilitate other attacks such as man-in-the-middle.''',
+      r'recommendation':r'''Set strong registry permissions on any values that high privileged processes use to determine IP addresses.''',
+      r'supporting_data': {
+         r'regkey_value_data_perms': {
+            r'section': "description",
+            r'preamble': "The following registry value are affected:",
           },
        }
     },
-    'WPC120': {
-       'title': "Non-Admin Can Change Executable For Scheduled Task",
-       'description': '''The NTFS permissions on some of the executables run by scheduled tasks (schtasks /query /xml) allow modification by non-admin users.  For tasks run as low-privileged users, false positives may be reported (bug).''',
-       'recommendation': '''Set strong file permissions on programs used by scheduled tasks.''',
-       'supporting_data': {
-          'scheduled_task_exe_perms': {
-             'section': "description",
-             'preamble': "The following scheduled tasks are affected:",
+   r'WPC119': {
+      r'title': "Non-Admin Can Change Usernames That Are Stored In The Registry",
+      r'description':r'''A walk of the registry found some registry keys that can be changed by non-admin users (KEY_SET_VALUE permission).  The data in some of those keys appears to be a username.  This is a simple regular-expression match so may report false positives.  In some instances it may be possible for an low-privilged user to cause another process to run as or otherwise affect a different user account.''',
+      r'recommendation':r'''Set strong registry permissions on any values that high privileged processes use to determine usernames.''',
+      r'supporting_data': {
+         r'regkey_value_data_perms': {
+            r'section': "description",
+            r'preamble': "The following registry value are affected:",
+          },
+       }
+    },
+   r'WPC120': {
+      r'title': "Non-Admin Can Change Executable For Scheduled Task",
+      r'description':r'''The NTFS permissions on some of the executables run by scheduled tasks (schtasks /query /xml) allow modification by non-admin users.  For tasks run as low-privileged users, false positives may be reported (bug).''',
+      r'recommendation':r'''Set strong file permissions on programs used by scheduled tasks.''',
+      r'supporting_data': {
+         r'scheduled_task_exe_perms': {
+            r'section': "description",
+            r'preamble': "The following scheduled tasks are affected:",
           },
        }
     },

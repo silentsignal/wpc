@@ -1,5 +1,6 @@
 # Not a class
 # Just a collection of useful subs
+from __future__ import unicode_literals
 from wpc.cache import cache
 from wpc.file import file as File
 from wpc.group import group as Group
