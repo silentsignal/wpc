@@ -100,7 +100,7 @@ reg_paths = (
 # These have fully qualified names:
 trusted_principles_fq = (
 	"BUILTIN\\Administrators",
-	u"BUILTIN\\Rendszergazd\xe1k",
+	u"BUILTIN\\Rendszergazd\xe1k", # Hungarian name for Administrators
 	"NT SERVICE\\TrustedInstaller",
 	"NT AUTHORITY\\SYSTEM"
 )
@@ -116,7 +116,7 @@ eventlog_key_hklm = 'SYSTEM\CurrentControlSet\Services\Eventlog'
 # These have names without a domain:
 trusted_principles = (
 	"Administrators",
-	u"Rendszergazd\xe1k",
+	u"Rendszergazd\xe1k", # Hungarian name for Administrators
 	"Domain Admins",
 	"Enterprise Admins",
 )
@@ -1846,7 +1846,7 @@ def check_services():
 				
 
 		if weak_perms or weak_perms_binary:
-			vprint("---------------------------------------")
+			vprint("-"*40)
 			vprint("Service:        " + service[0])
 			vprint("Description:    " + service[1])
 			vprint("Binary:         " + service_info[3])
@@ -1907,7 +1907,7 @@ def audit_services():
 			print "WARNING: Running agianst remote server.  Checking perms of .exe not implemented."
 		else:
 			binary = get_binary(service_info[3])
-		print "---------------------------------------------------------------"
+		print "-"*64
 		print("Service:        " + handle_unicode(service[0]))
 		print("Description:    " + handle_unicode(service[1]))
 		print("Binary:         " + handle_unicode(service_info[3]))
@@ -2005,7 +2005,7 @@ def print_weak_perms(type, weak_perms, options={}):
 		if brief:
 			print "\t%s%s%s%s: %s" % (acl_type, domain, slash, principle, perm)
 		else:
-			print repr((acl_type, domain, slash, principle, perm, type, object_name))
+			#print repr((acl_type, domain, slash, principle, perm, type, object_name))
 			print u"\t%s%s%s%s has permission %s on %s %s" % (handle_unicode(acl_type), handle_unicode(domain), handle_unicode(slash), handle_unicode(principle), handle_unicode(perm), handle_unicode(type), handle_unicode(object_name))
 			
 def check_path(path, issue_no):
@@ -2132,10 +2132,7 @@ def check_drives():
 				warning = " (not NTFS - might be insecure)"
 				save_issue_string("WPC011", "fat_fs_drives", "Fixed drive " + drive + ": has " + fs + " filesystem (Not NTFS - might not be secure)" )
 				sys.stdout.write("!")
-
-				 
 			# print "Fixed drive %s has %s filesystem%s" % (drive, fs, warning)
-			
 	print
 	
 def check_shares():
@@ -2156,10 +2153,7 @@ def check_shares():
 
 # TODO not option to call this yet
 def audit_shares():	
-	print 
-	print "[+] Shares"
-	print
-
+	print "\n[+] Shares\n"
 	resume = 0;
 	try:
 		(sharelist, total, resume) = win32net.NetShareEnum(remote_server, 502, resume, 999999)
@@ -2193,9 +2187,8 @@ def audit_shares():
 	except:
 		print "[E] Couldn't get share information"
 	
-	print
-	print "[+] Server Info (NetServerGetInfo 102)"
-	print 
+	print "\n[+] Server Info (NetServerGetInfo 102)\n"
+	
 	
 def check_progfiles():
 	# %ProgramFiles%
@@ -2263,10 +2256,7 @@ def check_patches():
 	
 def print_section(title):
 	if (verbose != 0):
-		print "================================="
-		print title
-		print "================================="
-		print
+		print "%s\n%s\n%s\n" % ("="*32,title,"="*32)
 	else:
 		sys.stdout.write(title + ": ")
 
@@ -2632,9 +2622,8 @@ def audit_user_group():
 			except:
 				print "Group %s has no privileges" % (group['name'])
 			
-	print
-	print "[+] Users"
-	print
+	print "\n[+] Users\n"
+
 	resume = 0
 	users = []
 	if verbose:
