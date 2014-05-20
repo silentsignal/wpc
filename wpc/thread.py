@@ -1,6 +1,7 @@
 from wpc.file import file as File
 from wpc.sd import sd
 from wpc.token import token
+from mako.template import Template
 import win32api
 import win32con
 import win32security
@@ -102,19 +103,6 @@ class thread:
         return self.token
 
     def as_text(self):
-        t = ''
-        t += "-------------------------------------------------\n"
-        t += "TID:            " + str(self.get_tid()) + "\n"
-        t += "\nThread Security Descriptor:\n"
-        if self.get_sd():
-            t += self.get_sd().as_text()
+        template=Template(filename="templates/thread.mako",encoding_errors='replace')
+        return template.render_unicode(thread=self)
 
-        t += "\nThread Access Token:\n"
-        tok = self.get_token()
-        if tok:
-            t += "Thread token found:\n"
-            t += tok.as_text()
-        else:
-            t += "[None - thread not impersonating]\n"
-
-        return t
