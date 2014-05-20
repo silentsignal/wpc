@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from wpc.file import file as File
 from wpc.groups import groups
 from wpc.parseOptions import parseOptions
@@ -91,7 +92,12 @@ def dump_program_files(report):
 
 def dump_services(opts):
     for s in services().get_services():
-        print s.as_text()
+    	try:
+        	print s.as_text()
+        except UnicodeError as e:
+        	print repr(s.get_description())
+        	raise e
+
 
 
 def dump_drivers(opts):

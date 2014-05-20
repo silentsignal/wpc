@@ -36,6 +36,8 @@ class sd(acelist):
         return self.type
 
     def dangerous_as_text(self):
+        template=Template(filename="templates/sd.mako",encoding_errors='replace')
+        return template.render_unicode(sd=self,flag=flag)
         s = ""
 
         o = self.get_owner()
@@ -146,5 +148,5 @@ class sd(acelist):
 
     def _as_text(self, flag):
         template=Template(filename="templates/sd.mako",encoding_errors='replace')
-        return template.render(sd=self,flag=flag)
+        return template.render_unicode(sd=self,flag=flag)
        

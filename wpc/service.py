@@ -223,8 +223,11 @@ class service:
             except:
                 pass
 
-        if self.service_info:
-            return self.service_info[n]
+        if len(self.service_info)>n:
+            if isinstance(self.service_info[n],unicode):
+                return self.handle_unicode(self.service_info[n])
+            else:
+                return self.service_info[n]
         else:
             return "[unknown]"
 
@@ -255,7 +258,7 @@ class service:
     def get_long_description(self):
         if not self.long_description:
             try:
-                self.long_description = win32service.QueryServiceConfig2(self.get_sh_query_config(), win32service.SERVICE_CONFIG_DESCRIPTION)
+                self.long_description = self.handle_unicode(win32service.QueryServiceConfig2(self.get_sh_query_config(), win32service.SERVICE_CONFIG_DESCRIPTION))
             except:
                 pass
             if not self.long_description:
@@ -270,7 +273,7 @@ class service:
 
     def _as_text(self, flag):
         template=Template(filename="templates/service.mako",encoding_errors='replace')
-        return template.render(svc=self,flag=flag)
+        return template.render_unicode(svc=self,flag=flag)
 
     def get_reg_key(self):
         if not self.reg_key:
@@ -278,3 +281,8 @@ class service:
         return self.reg_key
 
 
+    def handle_unicode(self,u):
+        try:
+            return u.encode('ascii','replace')
+        except:
+            return u.decode("ascii",'ignore')

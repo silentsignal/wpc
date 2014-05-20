@@ -1,15 +1,15 @@
 ---------------------------------------
 Service:        ${svc.get_name()}
-##Description:    ${svc.get_description()}
+Description:    ${svc.get_description()}
 Type:           ${svc.get_type()}
 Status:         ${svc.get_status()}
 Startup:        ${svc.get_startup_type()}
 Long Desc:      ${svc.get_long_description()}
 Binary:         ${svc.get_exe_path()}
 %if svc.get_exe_path_clean():
-##Binary (clean): ${svc.get_exe_path_clean()}
+Binary (clean): ${svc.get_exe_path_clean()}
 %else:
-## Binary (clean): [Missing Binary]
+Binary (clean): [Missing Binary]
 %endif
 
 Run as:         ${svc.get_run_as()}
