@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from wpc.service import service
 import win32service
 import wpc.conf

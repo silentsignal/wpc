@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from wpc.report.issues import issues
 import xml.etree.cElementTree as etree
 from lxml import etree as letree
@@ -10,7 +11,7 @@ class report():
     def __init__(self):
         self.info = {}
         self.issues = issues()
-        self.xsl_text = '''<?xml version="1.0" encoding="ISO-8859-1"?>
+        self.xsl_text = '''<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:output method="text" indent="no"/>

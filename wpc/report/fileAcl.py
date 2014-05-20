@@ -5,7 +5,7 @@
 # report.shareAcl
 # report.dirAcl?
 # report.registryKeyAcl
-
+from __future__ import unicode_literals
 from wpc.acelist import acelist
 
 

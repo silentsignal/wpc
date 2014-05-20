@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from wpc.report.issue import issue
 import xml.etree.cElementTree as etree
 from lxml import etree as letree
