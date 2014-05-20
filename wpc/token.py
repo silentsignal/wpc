@@ -1,5 +1,6 @@
 from wpc.principal import principal
 from wpc.sd import sd
+from mako.template import Template
 import ntsecuritycon
 import win32security
 import wpc.conf
@@ -258,6 +259,8 @@ class token:
         return self.token_owner
 
     def as_text_no_rec(self):
+        template=Template(filename="templates/token.mako",encoding_errors='replace')
+        return template.render_unicode(token=self)
         t = '--- Start Access Token ---\n'
 
         if self.get_th():
@@ -292,6 +295,8 @@ class token:
         return t
 
     def as_text_no_rec3(self):
+        template=Template(filename="templates/token.mako",encoding_errors='replace')
+        return template.render_unicode(token=self)
         t = '--- Start Access Token ---\n'
 
         if self.get_token_owner():
@@ -324,6 +329,8 @@ class token:
         return t
 
     def as_text_no_rec2(self):
+        template=Template(filename="templates/token.mako",encoding_errors='replace')
+        return template.render_unicode(token=self)
         t = '--- Start Access Token ---\n'
 
         if self.get_token_owner():
@@ -356,46 +363,5 @@ class token:
         return t
 
     def as_text(self):
-        t = '--- start access token ---\n'
-
-        if self.get_th_int():
-            t += "Token Handle: %s\n" % int(self.get_th_int())
-        if self.get_token_owner():
-            t += "Token Owner: " + str(self.get_token_owner().get_fq_name()) + "\n"
-        if self.get_token_user():
-            t += "Token User: " + str(self.get_token_user().get_fq_name()) + "\n"
-        if self.get_token_primary_group():
-            t += "Token Group: " + str(self.get_token_primary_group().get_fq_name()) + "\n"
-        t += "Token Type: " + str(self.get_token_type()) + "\n"
-        t += "Token Origin: " + str(self.get_token_origin()) + "\n"
-        t += "Token Source: " + str(self.get_token_source()) + "\n"
-        t += "TokenHasRestrictions: " + str(self.get_token_restrictions()) + "\n"
-        t += "TokenElevationType: " + str(self.get_token_elevation_type()) + "\n"
-        t += "TokenUIAccess: " + str(self.get_token_ui_access()) + "\n"
-        t += "TokenLinkedToken: " + str(self.get_token_linked_token()) + "\n"
-        if self.get_token_linked_token():
-            t += token(self.get_token_linked_token()).as_text_no_rec()
-        t += "TokenLogonSid: " + str(self.get_token_logon_sid()) + "\n"
-        t += "TokenElevation: " + str(self.get_token_elevation()) + "\n"
-        if self.get_token_integrity_level():
-            t += "TokenIntegrityLevel: " + str(self.get_token_integrity_level().get_fq_name()) + "\n"
-        else:
-            t += "TokenIntegrityLevel: [unknown]\n"
-        t += "TokenMandatoryPolicy: " + str(self.get_token_mandatory_policy()) + "\n"
-        t += "Token Resitrcted Sids:\n"
-        for sid in self.get_token_restricted_sids():
-            t += "\t" + sid.get_fq_name() + "\n"
-        t += "IsTokenRestricted: " + str(self.get_token_restricted()) + "\n"
-        t += "Token Groups:\n"
-        for g, attr_a in self.get_token_groups():
-            t += "\t%s: %s\n" % (g.get_fq_name(), "|".join(attr_a))
-        t += "Token Privileges:\n"
-        for p, a in self.get_token_privileges():
-            t += "\t%-32s: %s\n" % (str(p), "|".join(a))
-        t += "\nToken Security Descriptor:\n"
-        if self.get_sd():
-            t += self.get_sd().as_text()
-        t += '--- end access token ---\n'
-
-        #print "token: as_text returning %s" % t
-        return t
+        template=Template(filename="templates/token.mako",encoding_errors='replace')
+        return template.render_unicode(token=self)
